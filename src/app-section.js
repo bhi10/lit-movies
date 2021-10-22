@@ -11,8 +11,6 @@ import { STR_TV_SHOWS, STR_MOVIES } from "./redux/reducer";
 
 import * as selectors  from "./selectors/app";
 
-import Hammer from  "@dreamworld/hammerjs/hammer.js";
-
 export class AppSection extends connect(store)(LitElement){
 
   static styles = css`
@@ -22,11 +20,17 @@ export class AppSection extends connect(store)(LitElement){
 
     .backdrop{
       flex: 1 1 0%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1;
+      background-color: rgba(0, 0, 0, 0);
+      z-index: -9;
       position: absolute;
       width: 100%;
       height: 100%;
+      transition: background-color 0.7s;
+    }
+
+    .backdrop[opened]{
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 5;
     }
 
     .section{
@@ -77,8 +81,8 @@ export class AppSection extends connect(store)(LitElement){
   }
 
   _getInitView(){
-    const backdrop = this.layout === 'mobile' && this.drawerOpened 
-      ? html`<div class="backdrop" @click="${this._onDrawerToggel}"></div>` 
+    const backdrop = this.layout === 'mobile'  
+      ? html`<div class="backdrop" @click="${this._onDrawerToggel}" ?opened=${this.drawerOpened}></div>` 
       : html``;
 
     const section = html`
@@ -113,27 +117,6 @@ export class AppSection extends connect(store)(LitElement){
     store.dispatch({
       type: 'drawerStatusChange',
       drawerOpened: store.getState().drawerOpened ? false : true,
-    });
-  }
-
-  get _getSwipableDrawer(){
-    let hammerInstance = new Hammer(this);
-    hammerInstance.get('swipe').set({ enable: true });
-
-    hammerInstance.on('swipe', function(e){
-      if(e.velocity > 0 && store.getState().drawerOpened === false && store.getState().layout === 'mobile'){
-        store.dispatch({
-          type: 'drawerStatusChange',
-          drawerOpened: true,
-        });
-      }
-
-      if(e.velocity < 0 && store.getState().drawerOpened && store.getState().layout === 'mobile'){
-        store.dispatch({
-          type: 'drawerStatusChange',
-          drawerOpened: false,
-        });
-      }
     });
   }
 

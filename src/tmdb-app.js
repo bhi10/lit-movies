@@ -11,6 +11,9 @@ import store from './redux/store';
 import './drawer/app-drawer';
 import './app-section';
 
+//DreamWorld Hammerjs
+import Hammer from  "@dreamworld/hammerjs/hammer.js";
+
 import * as selectors  from "./selectors/app";
 
 export class TmdbApp extends connect(store)(LitElement){
@@ -60,16 +63,27 @@ export class TmdbApp extends connect(store)(LitElement){
 
   firstUpdated(){
     super.firstUpdated();
-    //this._appDrawer;
+    this._getSwipableDrawer;
   }
 
-  get _appDrawer(){
-    let appDrawer = this.renderRoot.querySelector('app-drawer');
-    let hammerInstance = new Hammer(appDrawer);
+  get _getSwipableDrawer(){
+    let hammerInstance = new Hammer(this);
     hammerInstance.get('swipe').set({ enable: true });
 
     hammerInstance.on('swipe', function(e){
-      console.log(e);
+      if(e.velocity > 0 && store.getState().drawerOpened === false && store.getState().layout === 'mobile'){
+        store.dispatch({
+          type: 'drawerStatusChange',
+          drawerOpened: true,
+        });
+      }
+
+      if(e.velocity < 0 && store.getState().drawerOpened && store.getState().layout === 'mobile'){
+        store.dispatch({
+          type: 'drawerStatusChange',
+          drawerOpened: false,
+        });
+      }
     });
   }
 
