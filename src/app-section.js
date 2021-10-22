@@ -7,7 +7,7 @@ import store from './redux/store';
 //Views
 import './header/app-header';
 
-import { STR_TV_SHOWS, STR_MOVIES } from "./redux/reducer";
+import { STR_TV_SHOWS, STR_MOVIES, STR_NOT_FOUND } from "./redux/reducer";
 
 import * as selectors  from "./selectors/app";
 
@@ -16,6 +16,7 @@ export class AppSection extends connect(store)(LitElement){
   static styles = css`
     :host{
       flex: 1;
+      display: flex;
     }
 
     .backdrop{
@@ -50,6 +51,7 @@ export class AppSection extends connect(store)(LitElement){
     }
 
     .body{
+      display: flex;
       flex: 1;
     }
   `;
@@ -77,7 +79,6 @@ export class AppSection extends connect(store)(LitElement){
 
   firstUpdated(){
     super.firstUpdated();
-    this._getSwipableDrawer;
   }
 
   _getInitView(){
@@ -110,6 +111,11 @@ export class AppSection extends connect(store)(LitElement){
       return html`<tmdb-movies></tmdb-movies>`;
     }
     
+    if(this.page === STR_NOT_FOUND){
+      import('./views/not-found');
+      return html`<not-found></not-found>`
+    }
+
     return html``;
   }
 

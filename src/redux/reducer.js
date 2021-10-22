@@ -3,6 +3,7 @@ import { LAYOUT_CHANGE_MEDIA_QUERY } from "../selectors/app";
 //Constants
 export const STR_TV_SHOWS = "TV Shows";
 export const STR_MOVIES = "Movies";
+export const STR_NOT_FOUND = "Not Found";
 
 let media = window.matchMedia(LAYOUT_CHANGE_MEDIA_QUERY);
 
@@ -11,7 +12,7 @@ let layout = media.matches ? 'mobile' : 'desktop';
 const INITIAL_STATE = {
   theme: 'light',
   drawerOpened: layout === "mobile" ? false : true,
-  page: STR_MOVIES,
+  page: STR_NOT_FOUND,
   layout: layout,
 };
 

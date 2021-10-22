@@ -13,7 +13,7 @@ import '@dreamworld/dw-icon-button';
 //Custom Components
 import { DwSurface } from "../views/components/dw-surface";
 
-import { STR_TV_SHOWS, STR_MOVIES } from "../redux/reducer";
+import { STR_TV_SHOWS, STR_MOVIES, STR_NOT_FOUND } from "../redux/reducer";
 
 export class AppDrawer extends connect(store)(DwSurface){
 
@@ -84,8 +84,9 @@ export class AppDrawer extends connect(store)(DwSurface){
         ${this._getCloseBtnView()}
       </div>
       <div class="body">
-      <dw-list-item leadingIcon="movie" title1=${STR_MOVIES} @click="${this._onPageChange}" ?selected=${this._isSelected(STR_MOVIES)}></dw-list-item>
+        <dw-list-item leadingIcon="movie" title1=${STR_MOVIES} @click="${this._onPageChange}" ?selected=${this._isSelected(STR_MOVIES)}></dw-list-item>
         <dw-list-item leadingIcon="live_tv" title1=${STR_TV_SHOWS} @click="${this._onPageChange}" ?selected=${this._isSelected(STR_TV_SHOWS)}></dw-list-item>
+        <dw-list-item leadingIcon="highlight_off" title1=${STR_NOT_FOUND} @click="${this._onPageChange}" ?selected=${this._isSelected(STR_NOT_FOUND)}></dw-list-item>
       </div>
       
     `;

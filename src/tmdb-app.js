@@ -67,7 +67,7 @@ export class TmdbApp extends connect(store)(LitElement){
   }
 
   get _getSwipableDrawer(){
-    let hammerInstance = new Hammer(this);
+    let hammerInstance = new Hammer(document.body);
     hammerInstance.get('swipe').set({ enable: true });
 
     hammerInstance.on('swipe', function(e){
