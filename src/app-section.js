@@ -7,7 +7,7 @@ import store from './redux/store';
 //Views
 import './header/app-header';
 
-import { STR_TV_SHOWS, STR_MOVIES, STR_NOT_FOUND } from "./redux/reducer";
+import { STR_TV_SHOWS, STR_MOVIES, STR_NOT_FOUND, STR_HOME } from "./redux/reducer";
 
 import * as selectors  from "./selectors/app";
 
@@ -101,13 +101,18 @@ export class AppSection extends connect(store)(LitElement){
 
   _getPageView(){
 
+    if(this.page === STR_HOME){
+      import('./views//home/app-home');
+      return html`<app-home></app-home>`
+    }
+
     if(this.page === STR_TV_SHOWS){
       import('./views/tv-shows/tv-shows.js');
       return html`<tv-shows></tv-shows>`;
     }
 
     if(this.page === STR_MOVIES){
-      import('./views/movies/tmdb-movies');
+      import('./views/movies/app-movies');
       return html`<tmdb-movies></tmdb-movies>`;
     }
     
