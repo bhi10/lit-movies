@@ -5,7 +5,7 @@ import { connect } from "pwa-helpers/connect-mixin.js";
 import store from './redux/store';
 
 //Views
-import './header/app-header';
+import './views/header/app-header';
 
 import { STR_TV_SHOWS, STR_MOVIES, STR_NOT_FOUND, STR_HOME } from "./redux/reducer";
 

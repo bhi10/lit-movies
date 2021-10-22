@@ -2,18 +2,18 @@ import { LitElement, html, css } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin";
-import store from "../redux/store";
+import store from "../../redux/store";
 
-import * as selectors from '../selectors/app';
+import * as selectors from '../../selectors/app';
 
 //Dw Components
 import '@dreamworld/dw-list-item/dw-list-item';
 import '@dreamworld/dw-icon-button';
 
 //Custom Components
-import { DwSurface } from "../views/components/dw-surface";
+import { DwSurface } from "../components/dw-surface";
 
-import { STR_TV_SHOWS, STR_MOVIES, STR_NOT_FOUND, STR_HOME } from "../redux/reducer";
+import { STR_TV_SHOWS, STR_MOVIES, STR_NOT_FOUND, STR_HOME } from "../../redux/reducer";
 
 export class AppDrawer extends connect(store)(DwSurface){
 

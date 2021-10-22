@@ -2,16 +2,16 @@ import { LitElement, html, css } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
-import store from "../redux/store";
+import store from "../../redux/store";
 
 //Dw-Components
 import '@dreamworld/dw-switch';
 import '@dreamworld/dw-icon-button';
 
 //Custom Components
-import { DwSurface } from "../views/components/dw-surface";
+import { DwSurface } from "../components/dw-surface";
 
-import * as selectors  from "../selectors/app";
+import * as selectors  from "../../selectors/app";
 
 export class AppHeader extends connect(store)(DwSurface){
 

@@ -8,7 +8,7 @@ import { connect } from "pwa-helpers/connect-mixin.js";
 import store from './redux/store';
 
 //Views
-import './drawer/app-drawer';
+import './views/drawer/app-drawer';
 import './app-section';
 
 //DreamWorld Hammerjs
