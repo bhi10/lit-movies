@@ -7,7 +7,8 @@ import store from '../redux/store';
 //Dw Components
 import '@dreamworld/dw-button';
 
-import { STR_HOME } from "../redux/reducer";
+import * as app from '../redux/app';
+import * as router from '../redux/router';
 
 export class NotFound extends connect(store)(LitElement){
 
@@ -48,13 +49,7 @@ export class NotFound extends connect(store)(LitElement){
   }
 
   _goHome(){
-    store.dispatch({
-      type: "pageChange",
-      value: {
-        page: STR_HOME,
-        drawerOpened: store.getState().drawerOpened
-      }
-    });
+    router.navigatePage("home", true);
   }
 
   stateChanged(state){

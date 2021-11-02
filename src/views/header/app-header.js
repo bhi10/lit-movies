@@ -11,7 +11,10 @@ import '@dreamworld/dw-icon-button';
 //Custom Components
 import { DwSurface } from "../components/dw-surface";
 
-import * as selectors  from "../../selectors/app";
+import * as selectors  from "../../redux/app/selectors";
+
+import * as app from "../../redux/app";
+import * as router from "../../redux/router";
 
 export class AppHeader extends connect(store)(DwSurface){
 
@@ -40,17 +43,21 @@ export class AppHeader extends connect(store)(DwSurface){
         height: max-content;
       }
 
-      dw-switch{
-        margin-right: 10px;
+      .title{
+        flex: 1;
       }
+
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        object-fit: cover;
+      } 
     `
   ];
 
   static properties = {
-    theme: {
-      type: String,
-      reflect: true,
-    },
     page: {
       type: String
     },    
@@ -68,34 +75,31 @@ export class AppHeader extends connect(store)(DwSurface){
 
     return html`
       <div class="header">
-        <div>
+        <div class="title">
           <dw-icon-button @click="${this._onDrawerToggel}" icon="menu"></dw-icon-button>
           <h4>${this.page}</h4>
         </div>
-        <dw-switch @change="${this._changeTheme}" ?checked="${this.theme==='dark' ? true : false}"></dw-switch>
+        <img @click="${this._onClickProfile}" src="src/img/page-not-found.png">
       </div>
+
+      
     `
   }
 
-  _changeTheme(e){
-    this.theme = this.theme === 'light' ? 'dark' : 'light';
-    store.dispatch({
-      type: 'themeChange',
-      theme: this.theme,
-    });
+  _onClickProfile(e){
+    console.log(e.target)
   }
 
   _onDrawerToggel(e){
     store.dispatch({
       type: 'drawerStatusChange',
-      drawerOpened: store.getState().drawerOpened ? false : true,
+      drawerOpened: store.getState().app.drawerOpened ? false : true,
     });
   }
 
   stateChanged(state){
-    this.theme = selectors.currentTheme(state);
-    this.page = selectors.activePage(state);
-    this.layout = selectors.getLayout(state);
+    this.page = router.selectors.currentModule(state);
+    this.layout = app.selectors.getLayout(state);
   }
 }
 

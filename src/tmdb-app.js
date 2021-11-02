@@ -14,7 +14,7 @@ import './app-section';
 //DreamWorld Hammerjs
 import Hammer from  "@dreamworld/hammerjs/hammer.js";
 
-import * as selectors  from "./selectors/app";
+import * as selectors  from "./redux/app/selectors";
 
 export class TmdbApp extends connect(store)(LitElement){
 
@@ -71,14 +71,14 @@ export class TmdbApp extends connect(store)(LitElement){
     hammerInstance.get('swipe').set({ enable: true });
 
     hammerInstance.on('swipe', function(e){
-      if(e.velocity > 0 && store.getState().drawerOpened === false && store.getState().layout === 'mobile'){
+      if(e.velocity > 0 && store.getState().app.drawerOpened === false && store.getState().app.layout === 'mobile'){
         store.dispatch({
           type: 'drawerStatusChange',
           drawerOpened: true,
         });
       }
 
-      if(e.velocity < 0 && store.getState().drawerOpened && store.getState().layout === 'mobile'){
+      if(e.velocity < 0 && store.getState().app.drawerOpened && store.getState().app.layout === 'mobile'){
         store.dispatch({
           type: 'drawerStatusChange',
           drawerOpened: false,
@@ -88,7 +88,7 @@ export class TmdbApp extends connect(store)(LitElement){
   }
 
   stateChanged(state){
-    this.theme = selectors.currentTheme(state);
+    this.theme = selectors.getCurrentTheme(state);
     this.dark = this.theme === 'dark' ? true : false;
   }
 }

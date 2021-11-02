@@ -4,9 +4,13 @@ import { LitElement, html, css } from "lit";
 import { connect } from "pwa-helpers/connect-mixin.js";
 import store from "../../redux/store";
 
+import * as typography from '@dreamworld/material-styles/typography';
+
+import "@dreamworld/dw-icon";
+
 export class AppHome extends connect(store)(LitElement){
 
-  static styles = css``;
+  static styles = []
 
   static properties = {
 
@@ -21,7 +25,7 @@ export class AppHome extends connect(store)(LitElement){
   }
 
   _getInitView(){
-    return html`<h1>Home Page</h1>`
+    return html`Home Page`
   }
 
   stateChanged(state){

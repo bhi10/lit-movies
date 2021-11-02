@@ -4,7 +4,10 @@ import { LitElement, html, css } from "lit";
 import { connect } from "pwa-helpers/connect-mixin";
 import store from "../../redux/store";
 
-import * as selectors from '../../selectors/app';
+import * as selectors from '../../redux/app/selectors';
+
+import * as app from '../../redux/app';
+import * as router from '../../redux/router'
 
 //Dw Components
 import '@dreamworld/dw-list-item/dw-list-item';
@@ -13,17 +16,22 @@ import '@dreamworld/dw-icon-button';
 //Custom Components
 import { DwSurface } from "../components/dw-surface";
 
-import { STR_TV_SHOWS, STR_MOVIES, STR_NOT_FOUND, STR_HOME } from "../../redux/reducer";
-
 export class AppDrawer extends connect(store)(DwSurface){
 
   static properties = {
-    opened:{
+    theme: {
+      type: String,
+      reflect: true,
+    },
+    opened: {
       type: Boolean,
       reflect: true,
       attribute: 'opened',
     },
-    activePage: {
+    _page: {
+      type: String,
+    },
+    _module: {
       type: String,
     },
     layout: {
@@ -35,7 +43,7 @@ export class AppDrawer extends connect(store)(DwSurface){
   constructor(){
     super();
     this.opened = true;
-    this.activePage;
+    this._page;
   }
 
   static styles = [
@@ -43,7 +51,7 @@ export class AppDrawer extends connect(store)(DwSurface){
     css`
       :host{
         position: absolute;
-        z-index: 9;
+        z-index: 4;
         overflow-y: auto;
         overflow-x: hidden;
         padding: 4px;
@@ -67,7 +75,12 @@ export class AppDrawer extends connect(store)(DwSurface){
 
       .header{
         display: flex;
-        justify-content: end;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      dw-switch{
+        margin: 8px;
       }
 
       dw-icon-button{
@@ -81,38 +94,43 @@ export class AppDrawer extends connect(store)(DwSurface){
   get _getContentTemplate(){
     return html`
       <div class="header">
+        <dw-switch @change="${this._changeTheme}" ?checked="${this.theme==='dark' ? true : false}"></dw-switch>
         ${this._getCloseBtnView()}
       </div>
       <div class="body">
-      <dw-list-item leadingIcon="home" title1=${STR_HOME} @click="${this._onPageChange}" ?selected=${this._isSelected(STR_HOME)}></dw-list-item>
-        <dw-list-item leadingIcon="movie" title1=${STR_MOVIES} @click="${this._onPageChange}" ?selected=${this._isSelected(STR_MOVIES)}></dw-list-item>
-        <dw-list-item leadingIcon="live_tv" title1=${STR_TV_SHOWS} @click="${this._onPageChange}" ?selected=${this._isSelected(STR_TV_SHOWS)}></dw-list-item>
-        <dw-list-item leadingIcon="highlight_off" title1=${STR_NOT_FOUND} @click="${this._onPageChange}" ?selected=${this._isSelected(STR_NOT_FOUND)}></dw-list-item>
+      <dw-list-item leadingIcon="home" title1='home' @click="${this._onPageChange}" ?selected=${this._isSelected('Home')}></dw-list-item>
+      <dw-list-item leadingIcon="movie" title1='movies' @click="${this._onPageChange}" ?selected=${this._isSelected('Movies')}></dw-list-item>
+      <dw-list-item leadingIcon="live_tv" title1='shows' @click="${this._onPageChange}" ?selected=${this._isSelected('Shows')}></dw-list-item>
+      <dw-list-item leadingIcon="highlight_off" title1='not-found' @click="${this._onPageChange}" ?selected=${this._isSelected('NotFound')}></dw-list-item>
       </div>
       
     `;
   }
 
   _getCloseBtnView(){
-    return this.layout === 'desktop' 
-      ? html `<dw-icon-button @click="${this._onDrawerClose}" icon="close"></dw-icon-button>`
-      : html ``;
+    // return this.layout === 'desktop' 
+    //   ? html `<dw-icon-button @click="${this._onDrawerClose}" icon="close"></dw-icon-button>`
+    //   : html ``;
+
+    return html `<dw-icon-button @click="${this._onDrawerClose}" icon="close"></dw-icon-button>`;
   }
 
   _onPageChange(e){
-    if(this.activePage !== e.target.title1){
-      store.dispatch({
-        type: "pageChange",
-        value: {
-          page: e.target.title1,
-          drawerOpened: this.layout === 'desktop',
-        }
-      })
+    if(this._page !== e.target.title1){
+      router.navigatePage(e.target.title1, true);
     }
   }
 
+  _changeTheme(e){
+    this.theme = this.theme === 'light' ? 'dark' : 'light';
+    store.dispatch({
+      type: 'themeChange',
+      theme: this.theme,
+    });
+  }
+
   _isSelected(str){
-    if(this.activePage === str){
+    if(this._module === str){
       return true;
     }
     return false;
@@ -126,9 +144,11 @@ export class AppDrawer extends connect(store)(DwSurface){
   }
 
   stateChanged(state){
-    this.opened = selectors.drawerStatus(state);
-    this.activePage = selectors.activePage(state);
-    this.layout = selectors.getLayout(state);
+    this.theme = app.selectors.getCurrentTheme(state);
+    this.opened = app.selectors.getDrawerStatus(state);
+    this.layout = app.selectors.getLayout(state);
+    this._page = router.selectors.currentPage(state);
+    this._module = router.selectors.currentModule(state);
   }
 }
 

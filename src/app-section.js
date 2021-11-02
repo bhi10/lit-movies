@@ -7,9 +7,9 @@ import store from './redux/store';
 //Views
 import './views/header/app-header';
 
-import { STR_TV_SHOWS, STR_MOVIES, STR_NOT_FOUND, STR_HOME } from "./redux/reducer";
+import * as app  from "./redux/app";
 
-import * as selectors  from "./selectors/app";
+import * as router from './redux/router';
 
 export class AppSection extends connect(store)(LitElement){
 
@@ -31,7 +31,7 @@ export class AppSection extends connect(store)(LitElement){
 
     .backdrop[opened]{
       background-color: rgba(0, 0, 0, 0.8);
-      z-index: 5;
+      z-index: 3;
     }
 
     .section{
@@ -47,7 +47,7 @@ export class AppSection extends connect(store)(LitElement){
     }
 
     :host([layout='desktop']) .section[opened]{
-      margin-left: calc(var(--drawer-width) + 8px);
+      margin-left: calc(var(--drawer-width) + 4px);
     }
 
     .body{
@@ -64,7 +64,7 @@ export class AppSection extends connect(store)(LitElement){
     drawerOpened: {
       type: String
     },
-    page: {
+    _page: {
       type: String
     },
   }
@@ -77,65 +77,66 @@ export class AppSection extends connect(store)(LitElement){
     return this._getInitView();
   }
 
-  firstUpdated(){
-    super.firstUpdated();
+  _getInitView(){
+    
+    return this._getInitView();
   }
 
   _getInitView(){
-    const backdrop = this.layout === 'mobile'  
-      ? html`<div class="backdrop" @click="${this._onDrawerToggel}" ?opened=${this.drawerOpened}></div>` 
-      : html``;
-
-    const section = html`
-      ${backdrop}
+    return html`
+      ${this._getBackdropVew()}
       <div class="section" ?opened=${this.drawerOpened}>
-        <app-header elevation=1></app-header>
+        <app-header elevation=${this.layout === "mobile" ? 1 : 0}></app-header>
         <div class="body">
           ${this._getPageView()}
         </div>
       </div>
     `;
-    
-    return section;
+  }
+
+  _getBackdropVew(){
+    return this.layout === 'mobile'  
+    ? html`<div class="backdrop" @click="${this._onDrawerToggel}" ?opened=${this.drawerOpened}></div>` 
+    : html``;
   }
 
   _getPageView(){
 
-    if(this.page === STR_HOME){
+    if(this._page === "root" || this._page === "home"){
       import('./views//home/app-home');
       return html`<app-home></app-home>`
     }
 
-    if(this.page === STR_TV_SHOWS){
+    if(this._page === "shows"){
       import('./views/tv-shows/tv-shows.js');
       return html`<tv-shows></tv-shows>`;
     }
 
-    if(this.page === STR_MOVIES){
+    if(this._page === "movies"){
       import('./views/movies/app-movies');
       return html`<tmdb-movies></tmdb-movies>`;
     }
     
-    if(this.page === STR_NOT_FOUND){
+    if(this._page === "not-found"){
       import('./views/not-found');
       return html`<not-found></not-found>`
     }
 
-    return html``;
+    import('./views/not-found');
+    return html`<not-found></not-found>`
   }
 
   _onDrawerToggel(){
     store.dispatch({
       type: 'drawerStatusChange',
-      drawerOpened: store.getState().drawerOpened ? false : true,
+      drawerOpened: this.drawerOpened ? false : true,
     });
   }
 
   stateChanged(state){
-    this.layout = selectors.getLayout(state);
-    this.drawerOpened = selectors.drawerStatus(state);
-    this.page = selectors.activePage(state);
-
+    this.layout = app.selectors.getLayout(state);
+    this.drawerOpened = app.selectors.getDrawerStatus(state);
+    this._page = router.selectors.currentPage(state);
     console.log(state);
   }
 }

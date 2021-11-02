@@ -1,11 +1,9 @@
 import { createSelector } from "reselect";
-import store from "../redux/store";
+import store from "../store";
 
 export const LAYOUT_CHANGE_MEDIA_QUERY = "only screen and (max-width: 480px)";
 
 let media = window.matchMedia(LAYOUT_CHANGE_MEDIA_QUERY);
-
-
 
 media.addListener( () => {
 
@@ -23,7 +21,7 @@ media.addListener( () => {
 });
 
 export const getLayout = (state) => {
-  return state.layout;
+  return state.app.layout;
 }
 
 export const layout = createSelector(
@@ -35,12 +33,12 @@ export const layout = createSelector(
   }
 )
 
-export const currentTheme = (state) => {
-  return state.theme;
+export const getCurrentTheme = (state) => {
+  return state.app.theme;
 }
 
 export const theme = createSelector(
-  currentTheme,
+  getCurrentTheme,
   (changeTheme) => {
     return{
       changeTheme
@@ -48,12 +46,12 @@ export const theme = createSelector(
   }
 );
 
-export const drawerStatus = (state) => {
-  return state.drawerOpened;
+export const getDrawerStatus = (state) => {
+  return state.app.drawerOpened;
 }
 
 export const isDrawerStatus = createSelector(
-  drawerStatus,
+  getDrawerStatus,
   (drawerStatus) => {
     return{
       drawerStatus
@@ -61,12 +59,12 @@ export const isDrawerStatus = createSelector(
   }
 );
 
-export const activePage = (state) => {
-  return state.page;
+export const getActivePage = (state) => {
+  return state.app.page;
 }
 
-export const getActivePage = createSelector(
-  activePage,
+export const activePage = createSelector(
+  getActivePage,
   (page) => {
     return{
       page
