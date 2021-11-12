@@ -1,0 +1,9 @@
+{
+  "name": "TMDB",
+  "home": "Home",
+  "movies": "Movies",
+  "shows": "Shows",
+  "not-found": "Not Found",
+  "theme": "Theme",
+  "language": "Language"
+}

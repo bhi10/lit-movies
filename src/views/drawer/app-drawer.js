@@ -4,8 +4,6 @@ import { LitElement, html, css } from "lit";
 import { connect } from "pwa-helpers/connect-mixin";
 import store from "../../redux/store";
 
-import * as selectors from '../../redux/app/selectors';
-
 import * as app from '../../redux/app';
 import * as router from '../../redux/router'
 
@@ -13,16 +11,16 @@ import * as router from '../../redux/router'
 import '@dreamworld/dw-list-item/dw-list-item';
 import '@dreamworld/dw-icon-button';
 
+//i18next
+import i18next from '@dw/i18next-esm';
+import { localize } from '@dw/pwa-helpers';
+
 //Custom Components
 import { DwSurface } from "../components/dw-surface";
 
-export class AppDrawer extends connect(store)(DwSurface){
+export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)){
 
   static properties = {
-    theme: {
-      type: String,
-      reflect: true,
-    },
     opened: {
       type: Boolean,
       reflect: true,
@@ -44,6 +42,7 @@ export class AppDrawer extends connect(store)(DwSurface){
     super();
     this.opened = true;
     this._page;
+    this.i18nextNameSpace = ['app'];
   }
 
   static styles = [
@@ -75,7 +74,7 @@ export class AppDrawer extends connect(store)(DwSurface){
 
       .header{
         display: flex;
-        justify-content: space-between;
+        justify-content: end;
         align-items: center;
       }
 
@@ -87,46 +86,29 @@ export class AppDrawer extends connect(store)(DwSurface){
         width: max-content;
         height: max-content;
       }
-
     `
   ]
 
   get _getContentTemplate(){
     return html`
-      <div class="header">
-        <dw-switch @change="${this._changeTheme}" ?checked="${this.theme==='dark' ? true : false}"></dw-switch>
-        ${this._getCloseBtnView()}
-      </div>
       <div class="body">
-      <dw-list-item leadingIcon="home" title1='home' @click="${this._onPageChange}" ?selected=${this._isSelected('Home')}></dw-list-item>
-      <dw-list-item leadingIcon="movie" title1='movies' @click="${this._onPageChange}" ?selected=${this._isSelected('Movies')}></dw-list-item>
-      <dw-list-item leadingIcon="live_tv" title1='shows' @click="${this._onPageChange}" ?selected=${this._isSelected('Shows')}></dw-list-item>
-      <dw-list-item leadingIcon="highlight_off" title1='not-found' @click="${this._onPageChange}" ?selected=${this._isSelected('NotFound')}></dw-list-item>
+        <dw-list-item lable="home" leadingIcon="home" title1='${i18next.t('home')}' @click="${this._onPageChange}" ?selected=${this._isSelected('Home')}></dw-list-item>
+        <dw-list-item lable="movies" leadingIcon="movie" title1='${i18next.t('movies')}' @click="${this._onPageChange}" ?selected=${this._isSelected('Movies')}></dw-list-item>
+        <dw-list-item lable="shows" leadingIcon="live_tv" title1='${i18next.t('shows')}' @click="${this._onPageChange}" ?selected=${this._isSelected('Shows')}></dw-list-item>
+        <dw-list-item lable="not-found" leadingIcon="highlight_off" title1='${i18next.t('not-found')}' @click="${this._onPageChange}" ?selected=${this._isSelected('NotFound')}></dw-list-item>
       </div>
       
     `;
   }
 
-  _getCloseBtnView(){
-    // return this.layout === 'desktop' 
-    //   ? html `<dw-icon-button @click="${this._onDrawerClose}" icon="close"></dw-icon-button>`
-    //   : html ``;
-
-    return html `<dw-icon-button @click="${this._onDrawerClose}" icon="close"></dw-icon-button>`;
-  }
-
   _onPageChange(e){
-    if(this._page !== e.target.title1){
-      router.navigatePage(e.target.title1, true);
+    if(this._page !== e.target.getAttribute("lable")){
+      router.navigatePage(e.target.getAttribute("lable"), true);
+      
+      if(this.layout === 'mobile'){
+        this._onDrawerClose();
+      }
     }
-  }
-
-  _changeTheme(e){
-    this.theme = this.theme === 'light' ? 'dark' : 'light';
-    store.dispatch({
-      type: 'themeChange',
-      theme: this.theme,
-    });
   }
 
   _isSelected(str){
@@ -136,19 +118,12 @@ export class AppDrawer extends connect(store)(DwSurface){
     return false;
   }
 
-  _onDrawerClose(e){
-    store.dispatch({
-      type: "drawerStatusChange",
-      drawerOpened: false,
-    })
-  }
-
   stateChanged(state){
-    this.theme = app.selectors.getCurrentTheme(state);
     this.opened = app.selectors.getDrawerStatus(state);
     this.layout = app.selectors.getLayout(state);
     this._page = router.selectors.currentPage(state);
     this._module = router.selectors.currentModule(state);
+    i18next.changeLanguage(app.selectors.getLanguage(state));
   }
 }
 

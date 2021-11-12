@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   theme: 'light',
   drawerOpened: layout === "mobile" ? false : true,
   layout: layout,
+  language: 'en',
 };
 
 export default function reducer(state = INITIAL_STATE, action){
@@ -18,6 +19,8 @@ export default function reducer(state = INITIAL_STATE, action){
       return{ ...state, drawerOpened: action.drawerOpened}
     case "layoutChange":
       return{ ...state, layout: action.value.layout, drawerOpened: action.value.drawerOpened}
+    case "languageChange":
+      return{ ...state, language: action.language}
   }
   return state;
 }

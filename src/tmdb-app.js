@@ -11,12 +11,26 @@ import store from './redux/store';
 import './views/drawer/app-drawer';
 import './app-section';
 
+//i18next
+import i18next from '@dw/i18next-esm';
+import Backend from 'i18next-xhr-backend';
+import { localize } from '@dw/pwa-helpers';
+
 //DreamWorld Hammerjs
 import Hammer from  "@dreamworld/hammerjs/hammer.js";
 
-import * as selectors  from "./redux/app/selectors";
+import * as app  from "./redux/app";
 
-export class TmdbApp extends connect(store)(LitElement){
+i18next.use(Backend).init({
+  fallbackLng: 'en',
+  ns: ['app'],
+  defaultNS: 'app',
+  backend: {
+    loadPath: './src/locales/{{lng}}/{{ns}}.json'
+  }
+});
+
+export class TmdbApp extends connect(store)(localize(i18next)(LitElement)){
 
   static properties = {
     theme: {
@@ -34,6 +48,7 @@ export class TmdbApp extends connect(store)(LitElement){
     super();
     this.theme;
     this.dark;
+    this.i18nextNameSpace = ['app'];
   }
 
   static styles = [
@@ -88,8 +103,9 @@ export class TmdbApp extends connect(store)(LitElement){
   }
 
   stateChanged(state){
-    this.theme = selectors.getCurrentTheme(state);
+    this.theme = app.selectors.getCurrentTheme(state);
     this.dark = this.theme === 'dark' ? true : false;
+    i18next.changeLanguage(app.selectors.getLanguage(state));
   }
 }
 

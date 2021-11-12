@@ -70,4 +70,17 @@ export const activePage = createSelector(
       page
     }
   }
-)
+);
+
+export const getLanguage = (state) => {
+  return state.app.language;
+}
+
+export const language = createSelector(
+  getLanguage,
+  (language) => {
+    return{
+      language
+    }
+  }
+);
