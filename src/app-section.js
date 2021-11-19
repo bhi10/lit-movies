@@ -26,7 +26,7 @@ export class AppSection extends connect(store)(LitElement){
       position: absolute;
       width: 100%;
       height: 100%;
-      transition: background-color 0.7s;
+      transition: background-color var(--drawer-open-time);
     }
 
     .backdrop[opened]{
@@ -39,7 +39,7 @@ export class AppSection extends connect(store)(LitElement){
       position: relative;
       display: flex;
       flex-direction: column;
-      transition: margin-left 0.7s;
+      transition: margin-left var(--drawer-open-time);
     }
 
     :host([layout='desktop']) .section{

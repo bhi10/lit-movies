@@ -16,6 +16,7 @@ import '@dreamworld/dw-icon-button';
 import { DwSurface } from "../components/dw-surface";
 import './profile-popover.js'
 
+//Selectors
 import * as app from "../../redux/app";
 import * as router from "../../redux/router";
 
@@ -90,9 +91,11 @@ export class AppHeader extends connect(store)(localize(i18next)(DwSurface)){
   }
 
   _getProfileView(){
-    return this.layout === 'desktop' 
-      ? html`<img @click="${this._onProfileClick}" src="src/img/page-not-found.png">` 
-      : html``;
+    // return this.layout !== 'desktop' 
+    //   ? html`<img @click="${this._onProfileClick}" src="src/img/page-not-found.png">` 
+    //   : html``;
+
+    return html`<img @click="${this._onProfileClick}" src="src/img/not-found/page-not-found.png">`;
   }
 
   _getPageName(){

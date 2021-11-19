@@ -20,31 +20,6 @@ import { DwSurface } from "../components/dw-surface";
 
 export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)){
 
-  static properties = {
-    opened: {
-      type: Boolean,
-      reflect: true,
-      attribute: 'opened',
-    },
-    _page: {
-      type: String,
-    },
-    _module: {
-      type: String,
-    },
-    layout: {
-      type: String,
-      reflect: true,
-    }
-  }
-
-  constructor(){
-    super();
-    this.opened = true;
-    this._page;
-    this.i18nextNameSpace = ['app'];
-  }
-
   static styles = [
     DwSurface.styles,
     css`
@@ -58,7 +33,7 @@ export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)){
         left: calc(var(--drawer-width) * -1.05);
         height: calc(100vh - 8px);
         margin: 4px;
-        transition: left 0.7s;
+        transition: left var(--drawer-open-time);
       }
 
       :host([opened]){
@@ -89,13 +64,38 @@ export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)){
     `
   ]
 
+  static properties = {
+    opened: {
+      type: Boolean,
+      reflect: true,
+      attribute: 'opened',
+    },
+    _page: {
+      type: String,
+    },
+    _module: {
+      type: String,
+    },
+    layout: {
+      type: String,
+      reflect: true,
+    }
+  }
+
+  constructor(){
+    super();
+    this.opened = true;
+    this._page;
+    this.i18nextNameSpace = ['app'];
+  }
+
   get _getContentTemplate(){
     return html`
       <div class="body">
         <dw-list-item lable="home" leadingIcon="home" title1='${i18next.t('home')}' @click="${this._onPageChange}" ?selected=${this._isSelected('Home')}></dw-list-item>
         <dw-list-item lable="movies" leadingIcon="movie" title1='${i18next.t('movies')}' @click="${this._onPageChange}" ?selected=${this._isSelected('Movies')}></dw-list-item>
         <dw-list-item lable="shows" leadingIcon="live_tv" title1='${i18next.t('shows')}' @click="${this._onPageChange}" ?selected=${this._isSelected('Shows')}></dw-list-item>
-        <dw-list-item lable="not-found" leadingIcon="highlight_off" title1='${i18next.t('not-found')}' @click="${this._onPageChange}" ?selected=${this._isSelected('NotFound')}></dw-list-item>
+        <dw-list-item lable="not-found" leadingIcon="highlight_off" title1='${i18next.t('notfound')}' @click="${this._onPageChange}" ?selected=${this._isSelected('NotFound')}></dw-list-item>
       </div>
       
     `;
@@ -116,6 +116,13 @@ export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)){
       return true;
     }
     return false;
+  }
+
+  _onDrawerClose(){
+    store.dispatch({
+      type: 'drawerStatusChange',
+      drawerOpened: false,
+    });
   }
 
   stateChanged(state){

@@ -60,7 +60,7 @@ class ProfilePopover extends connect(store)(localize(i18next)(DwCompositeDialog)
 
   get _headerTemplate(){
     return html`
-      <img src="src/img/page-not-found.png">
+      <img src="src/img/not-found/page-not-found.png">
     `;
   }
 

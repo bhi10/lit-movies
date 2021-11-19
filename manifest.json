@@ -1,0 +1,40 @@
+{
+  "name": "The Movie DataBase",
+  "short_name": "TMDB",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#6200ee",
+  "icons": [
+    {
+      "src": "/src/img/icons/page-not-found-square-50x50.png",
+      "type": "image/png",
+      "sizes": "50x50"
+    },
+    {
+      "src": "/src/img/icons/page-not-found-square-72x72.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "/src/img/icons/page-not-found-square-128x128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/src/img/icons/page-not-found-square-144x144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "/src/img/icons/page-not-found-square-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/src/img/icons/page-not-found-square-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

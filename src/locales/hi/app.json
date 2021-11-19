@@ -1,0 +1,9 @@
+{
+  "name": "TMDB",
+  "home": "होम",
+  "movies": "चलचित्र",
+  "shows": "शोज",
+  "notfound": "नहीं मिला",
+  "theme": "थीम",
+  "language": "भाषा"
+}

@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
 	<title>TMDB</title>
 
   <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
@@ -10,9 +11,12 @@
 
   <script type="module" src="./src/tmdb-app.js"></script>
 
+  <link rel="manifest" href="/manifest.json">
+
   <style>
     :root{
       --drawer-width: 256px;
+      --drawer-open-time: 0.4s;
       /* --mdc-icon-font: 'Material Icons Outlined'; */
     }
 
@@ -35,5 +39,6 @@
       }
     };
   </script>
+  <script src="/src/app.js"></script>
 </body>
 </html>

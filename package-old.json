@@ -1,29 +1,42 @@
 {
   "scripts": {
-    "start": "web-dev-server --watch --node-resolve --open"
+    "start": "web-dev-server --app-index index.html --node-resolve",
+    "build": "rimraf dist && node fix-open-wc-build.js  && rollup -c rollup.config.js",
+    "start:build": "web-dev-server --root-dir dist --app-index index.html"
   },
   "dependencies": {
     "@dreamworld/dw-button": "^2.1.2",
+    "@dreamworld/dw-dialog": "^3.4.0",
+    "@dreamworld/dw-icon": "^2.1.1",
     "@dreamworld/dw-icon-button": "^2.1.3",
     "@dreamworld/dw-list-item": "^2.1.0",
     "@dreamworld/dw-switch": "^2.1.0",
+    "@dreamworld/dw-tooltip": "^2.1.1",
     "@dreamworld/hammerjs": "^1.0.1",
     "@dreamworld/material-styles": "^1.3.1",
     "@dreamworld/pwa-helpers": "^1.11.1",
-    "@dreamworld/router": "1.0.0-init.2",
+    "@dreamworld/router": "^1.0.0",
+    "@dw/i18next-esm": "^15.0.9",
+    "i18next-xhr-backend": "^3.2.2",
     "lit": "^2.0.0",
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0"
+    "reselect": "^4.0.0",
+    "tippy.js": "^6.3.3"
   },
   "devDependencies": {
-    "@open-wc/building-rollup": "^2.0.1",
-    "@rollup/plugin-commonjs": "^21.0.0",
-    "@semantic-release/gitlab": "^7.0.3",
-    "@web/dev-server": "^0.1.25",
-    "rollup": "^2.58.0",
+    "@open-wc/building-rollup": "^1.10.0",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@semantic-release/gitlab": "^6.0.7",
+    "@web/dev-server": "^0.1.18",
+    "rimraf": "^2.6.3",
+    "rollup": "^2.3.4",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-minify-html-literals": "^1.2.6",
-    "semantic-release": "^18.0.0"
+    "semantic-release": "^17.0.8"
+  },
+  "engines": {
+    "yarn": "1.22.11",
+    "node": "14.17.6"
   }
 }

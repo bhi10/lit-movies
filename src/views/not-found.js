@@ -42,7 +42,7 @@ export class NotFound extends connect(store)(LitElement){
 
   _getInitView(){
     return html`
-      <img src="src/img/page-not-found.png">
+      <img src="src/img/not-found/page-not-found.png">
       <h3>Page Not Found</h3>
       <dw-button label="Go Home" raised @click="${this._goHome}"></dw-button>
       `;

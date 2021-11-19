@@ -44,6 +44,14 @@ class LanguageComposite extends connect(store)(DwPopoverDialog){
       </dw-list-item>
       <dw-list-item 
         @click=${this._onLanguageChange}
+        name="hi"
+        title1="हिन्दी" 
+        ?selected=${this._isSelected('hi')} 
+        hasTrailingIcon
+        trailingIcon=${this._isSelected('hi') ? 'done' : ''}>
+      </dw-list-item>
+      <dw-list-item 
+        @click=${this._onLanguageChange}
         name="gu"
         title1="ગુજરાતી" 
         ?selected=${this._isSelected('gu')} 
