@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "start": "web-dev-server --app-index index.html --node-resolve"
+    "start": "web-dev-server",
+    "build": "rimraf dist && node fix-open-wc-build.js  && rollup -c rollup.config.js",
+    "start:build": "web-dev-server --root-dir dist --app-index index.html"
   },
   "dependencies": {
     "@dreamworld/dw-button": "^2.1.2",
@@ -25,6 +27,11 @@
   "devDependencies": {
     "@open-wc/building-rollup": "^2.0.1",
     "@rollup/plugin-commonjs": "^21.0.1",
-    "@web/dev-server": "^0.1.25"
+    "@web/dev-server": "^0.1.25",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.60.1",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-minify-html-literals": "^1.2.6",
+    "semantic-release": "^18.0.0"
   }
 }
