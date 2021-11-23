@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "web-dev-server",
+    "start": "web-dev-server --app-index index.html --node-resolve",
     "build": "rimraf dist && node fix-open-wc-build.js  && rollup -c rollup.config.js",
     "start:build": "web-dev-server --root-dir dist --app-index index.html"
   },
