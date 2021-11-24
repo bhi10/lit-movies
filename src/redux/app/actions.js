@@ -1,0 +1,6 @@
+export const CHANGE_THEME = 'CHANGE_THEME';
+export const CHANGE_THEME_DONE = 'CHANGE_THEME_DONE';
+export const CHANGE_LAYOUT = 'CHANGE_LAYOUT';
+
+export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';
+

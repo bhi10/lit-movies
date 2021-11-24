@@ -66,7 +66,7 @@ class ProfilePopover extends connect(store)(localize(i18next)(DwCompositeDialog)
 
   get _contentTemplate(){
     return html`
-      <dw-list-item id="theme" @click=${this._openThemePopover} title1="${i18next.t('theme')}" leadingIcon="brightness_7" trailingIcon="navigate_next" selectionMode="none"></dw-list-item>
+      <dw-list-item id="theme" @click=${this._openThemePopover} title1="${i18next.t('theme', {val: this.type})}" leadingIcon="brightness_7" trailingIcon="navigate_next" selectionMode="none"></dw-list-item>
       <dw-list-item id="Language" @click=${this._openLanguagePopover} title1="${i18next.t('language')}" leadingIcon="language" trailingIcon="navigate_next" selectionMode="none"></dw-list-item>
 
       <theme-composite showTrigger></theme-composite>

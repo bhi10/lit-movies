@@ -4,6 +4,6 @@
   "movies": "चलचित्र",
   "shows": "शोज",
   "notfound": "नहीं मिला",
-  "theme": "थीम",
+  "theme": "{{val}} थीम",
   "language": "भाषा"
 }

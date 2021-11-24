@@ -4,6 +4,6 @@
   "movies": "ફિલ્મો",
   "shows": "શોઝ",
   "notfound": "મળ્યું નથી",
-  "theme": "થીમ",
+  "theme": "{{val}} થીમ",
   "language": "ભાષા"
 }

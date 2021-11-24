@@ -4,8 +4,6 @@ import { LAYOUT_CHANGE_MEDIA_QUERY } from "./selectors";
 let media = window.matchMedia(LAYOUT_CHANGE_MEDIA_QUERY);
 let layout = media.matches ? 'mobile' : 'desktop';
 
-console.log('Initially ' + (window.navigator.onLine ? 'on' : 'off') + 'line');
-
 const INITIAL_STATE = {
   theme: 'light',
   drawerOpened: layout === "mobile" ? false : true,
