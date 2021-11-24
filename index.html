@@ -37,10 +37,14 @@
   <script>
     window.process = {
       env: {
-      NODE_ENV: 'production'
+        NODE_ENV: 'production',
+        envName: 'test',
+        baseDomain: 'themoviedb.org/3', 
+        apiKey: '6b773e1f59009e9d5efc06c47c2ccd9c',
+        version: '1.0.0'
       }
     };
   </script>
-  <script src="/src/app.js"></script>
+    <script src="/src/app.js"></script>
 </body>
 </html>

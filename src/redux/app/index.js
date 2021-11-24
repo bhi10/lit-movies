@@ -1,6 +1,7 @@
 import { default as reducer } from './reducer';
 
 import * as _selectors from './selectors';
+import * as _actions from './actions';
 
 import store from '../store';
 
@@ -12,10 +13,10 @@ export const LAYOUT_CHANGE_MEDIA_QUERY = "only screen and (max-width: 480px)";
 
 let media = window.matchMedia(LAYOUT_CHANGE_MEDIA_QUERY);
 
-media.addListener( () => {
+media.addListener(() => {
   let layout = media.matches ? "mobile" : "desktop";
 
-  if(store.getState().layout !== layout){
+  if (store.getState().layout !== layout) {
     store.dispatch({
       type: "layoutChange",
       value: {
@@ -27,3 +28,4 @@ media.addListener( () => {
 });
 
 export const selectors = _selectors;
+export const actions = _actions;

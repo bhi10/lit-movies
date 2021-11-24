@@ -4,3 +4,14 @@ export const CHANGE_LAYOUT = 'CHANGE_LAYOUT';
 
 export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';
 
+export const changeTheme = (value) => {
+  return { type: CHANGE_THEME, value }
+}
+
+export const changeLayout = (value) => {
+  return { type: CHANGE_LAYOUT, value }
+}
+
+export const changeLanguage = (value) => {
+  return { type: CHANGE_LANGUAGE, value }
+}

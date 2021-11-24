@@ -10,12 +10,12 @@ import store from "../../redux/store";
 
 import * as app from '../../redux/app';
 
-class LanguageComposite extends connect(store)(DwPopoverDialog){
-  constructor(){
+class LanguageComposite extends connect(store)(DwPopoverDialog) {
+  constructor() {
     super();
   }
 
-  static properties(){
+  static properties() {
     return {
       _language: {
         type: String,
@@ -23,60 +23,42 @@ class LanguageComposite extends connect(store)(DwPopoverDialog){
     }
   }
 
-  static get styles(){
+  static get styles() {
     return [
       super.styles,
-      css `
+      css`
 
       `
     ];
   }
 
-  get _contentTemplate(){
+  get _contentTemplate() {
     return html`
-      <dw-list-item 
-        @click=${this._onLanguageChange}
-        name="en"
-        title1="English" 
-        ?selected=${this._isSelected('en')} 
-        hasTrailingIcon
-        trailingIcon=${this._isSelected('en') ? 'done' : ''}>
+      <dw-list-item @click=${this._onLanguageChange} name="en" title1="English" ?selected=${this._isSelected('en')}
+        hasTrailingIcon trailingIcon=${this._isSelected('en') ? 'done' : '' }>
       </dw-list-item>
-      <dw-list-item 
-        @click=${this._onLanguageChange}
-        name="hi"
-        title1="हिन्दी" 
-        ?selected=${this._isSelected('hi')} 
-        hasTrailingIcon
-        trailingIcon=${this._isSelected('hi') ? 'done' : ''}>
+      <dw-list-item @click=${this._onLanguageChange} name="hi" title1="हिन्दी" ?selected=${this._isSelected('hi')}
+        hasTrailingIcon trailingIcon=${this._isSelected('hi') ? 'done' : '' }>
       </dw-list-item>
-      <dw-list-item 
-        @click=${this._onLanguageChange}
-        name="gu"
-        title1="ગુજરાતી" 
-        ?selected=${this._isSelected('gu')} 
-        hasTrailingIcon
-        trailingIcon=${this._isSelected('gu') ? 'done' : ''}>
+      <dw-list-item @click=${this._onLanguageChange} name="gu" title1="ગુજરાતી" ?selected=${this._isSelected('gu')}
+        hasTrailingIcon trailingIcon=${this._isSelected('gu') ? 'done' : '' }>
       </dw-list-item>
     `;
   }
 
-  _isSelected(str){
+  _isSelected(str) {
     return this._language === str ? true : false;
   }
 
-  _onLanguageChange(e){
-    if(this._language !== e.target.getAttribute("name")){
+  _onLanguageChange(e) {
+    if (this._language !== e.target.getAttribute("name")) {
       this._language = e.target.getAttribute("name");
-      store.dispatch({
-        type: 'languageChange',
-        language: this._language,
-      });
+      store.dispatch(app.actions.changeLanguage(this._language));
       this.close();
     }
   }
 
-  stateChanged(state){
+  stateChanged(state) {
     this._language = app.selectors.getLanguage(state);
   }
 }
