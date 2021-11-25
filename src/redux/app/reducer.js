@@ -25,7 +25,8 @@ function getConfig(config) {
 
 function getDefaultConfig(baseDomain) {
   return {
-    apiBaseUrl: `https://api.${baseDomain}`
+    apiBaseUrl: `https://api.${baseDomain}`,
+    apiKey: '6b773e1f59009e9d5efc06c47c2ccd9c'
   }
 }
 

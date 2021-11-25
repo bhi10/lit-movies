@@ -5,11 +5,11 @@ export const LAYOUT_CHANGE_MEDIA_QUERY = "only screen and (max-width: 480px)";
 
 let media = window.matchMedia(LAYOUT_CHANGE_MEDIA_QUERY);
 
-media.addListener( () => {
+media.addListener(() => {
 
   let layout = media.matches ? "mobile" : "desktop";
 
-  if(store.getState().layout !== layout){
+  if (store.getState().layout !== layout) {
     store.dispatch({
       type: "layoutChange",
       value: {
@@ -27,7 +27,7 @@ export const getLayout = (state) => {
 export const layout = createSelector(
   getLayout,
   (layout) => {
-    return{
+    return {
       layout
     }
   }
@@ -40,7 +40,7 @@ export const getCurrentTheme = (state) => {
 export const theme = createSelector(
   getCurrentTheme,
   (changeTheme) => {
-    return{
+    return {
       changeTheme
     }
   }
@@ -53,7 +53,7 @@ export const getDrawerStatus = (state) => {
 export const isDrawerStatus = createSelector(
   getDrawerStatus,
   (drawerStatus) => {
-    return{
+    return {
       drawerStatus
     }
   }
@@ -66,7 +66,7 @@ export const getActivePage = (state) => {
 export const activePage = createSelector(
   getActivePage,
   (page) => {
-    return{
+    return {
       page
     }
   }
@@ -79,8 +79,23 @@ export const getLanguage = (state) => {
 export const language = createSelector(
   getLanguage,
   (language) => {
-    return{
+    return {
       language
     }
   }
 );
+
+export const apiBaseUrl = (state) => {
+  return state.app.config.apiBaseUrl
+};
+
+export const getApiBaseUrl = createSelector(
+  apiBaseUrl,
+  (url) => {
+    return {
+      url
+    }
+  }
+);
+
+export const apiKey = (state) => state.app.config.apiKey;

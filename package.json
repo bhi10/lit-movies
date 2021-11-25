@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "web-dev-server ---app-index index.html --node-resolve",
+    "start": "web-dev-server --node-resolve --app-index index.html --open",
     "build": "rimraf dist && node fix-open-wc-build.js  && rollup -c rollup.config.js",
     "start:build": "web-dev-server --root-dir dist --app-index index.html"
   },

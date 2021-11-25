@@ -4,6 +4,9 @@ import { LitElement, html, css } from "lit";
 import { connect } from "pwa-helpers/connect-mixin.js";
 import store from '../../redux/store';
 
+//Utilities
+import * as utils from "../../utils";
+
 export class TmdbMovies extends connect(store)(LitElement) {
 
   static styles = css`
@@ -24,10 +27,7 @@ export class TmdbMovies extends connect(store)(LitElement) {
   }
 
   _getData() {
-    const baseUrl = "https://api.themoviedb.org/3/";
-    const api_key = '6b773e1f59009e9d5efc06c47c2ccd9c';
-
-    let url = "".concat(baseUrl, 'movie/550?api_key=', api_key);
+    let url = utils.getApiUrl("/movie/popular", 2);
 
     fetch(url)
       .then(res => res.json())
