@@ -2,7 +2,7 @@ import { LitElement, html, css } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
-import store from '../redux/store';
+import {store} from '../redux/store';
 
 //Dw Components
 import '@dreamworld/dw-button';

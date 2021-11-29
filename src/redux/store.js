@@ -1,15 +1,17 @@
-import { createStore, compose, combineReducers } from "redux";
-import router from "@dreamworld/router/reducer";
+import { createStore, compose, combineReducers, applyMiddleware } from "redux";
+
+import createSagaMiddleware from "@redux-saga/core";
 
 import { lazyReducerEnhancer } from 'pwa-helpers/lazy-reducer-enhancer.js';
 
+export const sagaMiddleware = createSagaMiddleware();
+
 const devCompose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(
+export const store = createStore(
   state => state,
   devCompose(
     lazyReducerEnhancer(combineReducers),
+    applyMiddleware(sagaMiddleware)
   )
 );
-
-export default store;

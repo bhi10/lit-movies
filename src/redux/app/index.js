@@ -1,15 +1,18 @@
+export const LAYOUT_CHANGE_MEDIA_QUERY = "only screen and (max-width: 480px)";
+
 import { default as reducer } from './reducer';
+import { store, sagaMiddleware } from '../store';
 
 import * as _selectors from './selectors';
 import * as _actions from './actions';
 
-import store from '../store';
+import saga from './saga';
 
 store.addReducers({
   app: reducer
-})
+});
 
-export const LAYOUT_CHANGE_MEDIA_QUERY = "only screen and (max-width: 480px)";
+sagaMiddleware.run(saga);
 
 let media = window.matchMedia(LAYOUT_CHANGE_MEDIA_QUERY);
 

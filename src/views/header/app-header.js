@@ -2,7 +2,7 @@ import { LitElement, html, css } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
-import store from "../../redux/store";
+import {store} from "../../redux/store";
 
 //i18next
 import i18next from '@dw/i18next-esm';

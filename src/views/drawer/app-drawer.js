@@ -2,7 +2,7 @@ import { LitElement, html, css } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin";
-import store from "../../redux/store";
+import {store} from "../../redux/store";
 
 import * as app from '../../redux/app';
 import * as router from '../../redux/router'

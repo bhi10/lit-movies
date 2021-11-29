@@ -3,7 +3,7 @@ import { DwCompositeDialog } from '@dreamworld/dw-dialog/dw-composite-dialog.js'
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin";
-import store from '../../redux/store.js';
+import {store} from '../../redux/store.js';
 
 import * as app from '../../redux/app';
 

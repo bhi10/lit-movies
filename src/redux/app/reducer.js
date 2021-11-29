@@ -1,6 +1,6 @@
-import { LAYOUT_CHANGE_MEDIA_QUERY } from "./selectors";
 import { CHANGE_THEME, CHANGE_LANGUAGE } from "./actions";
 
+export const LAYOUT_CHANGE_MEDIA_QUERY = "only screen and (max-width: 480px)";
 //get initial layout
 let media = window.matchMedia(LAYOUT_CHANGE_MEDIA_QUERY);
 let layout = media.matches ? 'mobile' : 'desktop';

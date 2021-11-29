@@ -6,7 +6,7 @@ import '@dreamworld/dw-list-item/dw-list-item.js';
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin";
-import store from "../../redux/store";
+import {store} from "../../redux/store";
 
 import * as app from '../../redux/app';
 

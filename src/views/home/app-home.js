@@ -2,7 +2,9 @@ import { LitElement, html, css } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
-import store from "../../redux/store";
+import { store } from "../../redux/store";
+
+import api from "../../redux/api";
 
 import * as typography from '@dreamworld/material-styles/typography';
 
@@ -18,6 +20,7 @@ export class AppHome extends connect(store)(LitElement){
 
   constructor(){
     super();
+    this.data;
   }
 
   render(){
@@ -29,7 +32,8 @@ export class AppHome extends connect(store)(LitElement){
   }
 
   stateChanged(state){
-
+    this.data = api("/movie/popular", 2);
+    console.log(this.data);
   }
 }
 
