@@ -24,7 +24,7 @@ export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)){
     DwSurface.styles,
     css`
       :host{
-        position: absolute;
+        position: fixed;
         z-index: 4;
         overflow-y: auto;
         overflow-x: hidden;

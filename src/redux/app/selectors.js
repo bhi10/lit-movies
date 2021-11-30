@@ -79,3 +79,5 @@ export const getApiBaseUrl = createSelector(
 );
 
 export const apiKey = (state) => state.app.config.apiKey;
+
+export const apiImageUrl = (state) => state.app.config.apiImageUrl;

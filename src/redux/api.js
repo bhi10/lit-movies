@@ -9,7 +9,8 @@ export default async (string, page) => {
     "?api_key=",
     app.selectors.apiKey(store.getState()),
     "&page=",
-    page
+    page,
+    "&language=en-US"
   );
 
   let res;

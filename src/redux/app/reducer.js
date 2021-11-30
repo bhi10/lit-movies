@@ -17,16 +17,17 @@ const INITIAL_STATE = {
 
 function getConfig(config) {
 
-  let defaultConfig = getDefaultConfig(config.baseDomain);
+  let defaultConfig = getDefaultConfig(config);
   return {
     ...defaultConfig
   };
 }
 
-function getDefaultConfig(baseDomain) {
+function getDefaultConfig(config) {
   return {
-    apiBaseUrl: `https://api.${baseDomain}`,
-    apiKey: '6b773e1f59009e9d5efc06c47c2ccd9c'
+    apiBaseUrl: `https://api.${config.baseDomain}`,
+    apiKey: config.apiKey,
+    apiImageUrl: config.apiImageUrl
   }
 }
 
