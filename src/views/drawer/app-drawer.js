@@ -2,10 +2,10 @@ import { LitElement, html, css } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin";
-import {store} from "../../redux/store";
+import { store } from "../../redux/store";
 
 import * as app from '../../redux/app';
-import * as router from '../../redux/router'
+import * as router from '../../redux/router';
 
 //Dw Components
 import '@dreamworld/dw-list-item/dw-list-item';
@@ -18,7 +18,7 @@ import { localize } from '@dw/pwa-helpers';
 //Custom Components
 import { DwSurface } from "../components/dw-surface";
 
-export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)){
+export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)) {
 
   static styles = [
     DwSurface.styles,
@@ -82,50 +82,55 @@ export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)){
     }
   }
 
-  constructor(){
+  constructor() {
     super();
     this.opened = true;
     this._page;
     this.i18nextNameSpace = ['app'];
   }
 
-  get _getContentTemplate(){
+  get _getContentTemplate() {
     return html`
       <div class="body">
-        <dw-list-item lable="home" leadingIcon="home" title1='${i18next.t('home')}' @click="${this._onPageChange}" ?selected=${this._isSelected('Home')}></dw-list-item>
-        <dw-list-item lable="movies" leadingIcon="movie" title1='${i18next.t('movies')}' @click="${this._onPageChange}" ?selected=${this._isSelected('Movies')}></dw-list-item>
-        <dw-list-item lable="shows" leadingIcon="live_tv" title1='${i18next.t('shows')}' @click="${this._onPageChange}" ?selected=${this._isSelected('Shows')}></dw-list-item>
-        <dw-list-item lable="not-found" leadingIcon="highlight_off" title1='${i18next.t('notfound')}' @click="${this._onPageChange}" ?selected=${this._isSelected('NotFound')}></dw-list-item>
+        <dw-list-item lable="home" leadingIcon="home" title1='${i18next.t(' home')}' @click="${this._onPageChange}"
+          ?selected=${this._isSelected('Home')}></dw-list-item>
+        <dw-list-item lable="movies" leadingIcon="movie" title1='${i18next.t(' movies')}' @click="${this._onPageChange}"
+          ?selected=${this._isSelected('Movies')}></dw-list-item>
+        <dw-list-item lable="shows" leadingIcon="live_tv" title1='${i18next.t(' shows')}' @click="${this._onPageChange}"
+          ?selected=${this._isSelected('Shows')}></dw-list-item>
+        <dw-list-item lable="not-found" leadingIcon="highlight_off" title1='${i18next.t(' notfound')}'
+          @click="${this._onPageChange}" ?selected=${this._isSelected('NotFound')}></dw-list-item>
       </div>
       
     `;
   }
 
-  _onPageChange(e){
-    if(this._page !== e.target.getAttribute("lable")){
+  _onPageChange(e) {
+    console.log(e.target.getAttribute("lable"));
+    if (this._page !== e.target.getAttribute("lable")) {
       router.navigatePage(e.target.getAttribute("lable"), true);
-      
-      if(this.layout === 'mobile'){
+
+      if (this.layout === 'mobile') {
         this._onDrawerClose();
       }
     }
   }
 
-  _isSelected(str){
-    if(this._module === str){
+  _isSelected(str) {
+    if (this._module === str) {
       return true;
     }
     return false;
   }
 
-  _onDrawerClose(){
+  _onDrawerClose() {
     store.dispatch({
       type: 'drawerStatusChange',
       drawerOpened: false,
     });
   }
 
-  stateChanged(state){
+  stateChanged(state) {
     this.opened = app.selectors.getDrawerStatus(state);
     this.layout = app.selectors.getLayout(state);
     this._page = router.selectors.currentPage(state);

@@ -1,4 +1,4 @@
-import {store} from "./store";
+import { store } from "./store";
 import * as app from "./app";
 
 export default async (string, page) => {
@@ -14,10 +14,10 @@ export default async (string, page) => {
   );
 
   let res;
-  try{
+  try {
     res = await fetch(url);
-  }catch(err){
-    throw { status: 0}
+  } catch (err) {
+    throw { status: 0 }
   }
 
   let responseText;
@@ -35,7 +35,7 @@ export default async (string, page) => {
     //ignore
   }
 
-  if(res.ok){
+  if (res.ok) {
     return getResponseObject(responseJSON, responseText, res.status)
   }
 
@@ -43,11 +43,11 @@ export default async (string, page) => {
 }
 
 let getResponseObject = (json, text, status) => {
-  if(json){
-    return {...json, status}
+  if (json) {
+    return { ...json, status }
   }
 
-  throw{
+  throw {
     status: status,
     code: 'JSON_PARSE_FAILED',
     error: 'Failed to parse response as Json',

@@ -22,6 +22,7 @@
     "@dw/i18next-esm": "^15.0.9",
     "i18next-xhr-backend": "^3.2.2",
     "lit": "^2.0.0",
+    "lodash-es": "^4.17.21",
     "redux": "^4.1.1",
     "redux-saga": "^1.1.3",
     "redux-thunk": "^2.3.0",

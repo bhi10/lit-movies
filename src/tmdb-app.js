@@ -5,7 +5,7 @@ import { ThemeStyle } from '@dreamworld/material-styles/theme.js';
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
-import {store} from './redux/store';
+import { store } from './redux/store';
 
 //Views
 import './views/drawer/app-drawer';
@@ -17,9 +17,9 @@ import Backend from 'i18next-xhr-backend';
 import { localize } from '@dw/pwa-helpers';
 
 //DreamWorld Hammerjs
-import Hammer from  "@dreamworld/hammerjs/hammer.js";
+import Hammer from "@dreamworld/hammerjs/hammer.js";
 
-import * as app  from "./redux/app";
+import * as app from "./redux/app";
 
 i18next.use(Backend).init({
   fallbackLng: 'en',
@@ -30,7 +30,7 @@ i18next.use(Backend).init({
   }
 });
 
-export class TmdbApp extends connect(store)(localize(i18next)(LitElement)){
+export class TmdbApp extends connect(store)(localize(i18next)(LitElement)) {
 
   static properties = {
     theme: {
@@ -44,7 +44,7 @@ export class TmdbApp extends connect(store)(localize(i18next)(LitElement)){
     },
   }
 
-  constructor(){
+  constructor() {
     super();
     this.theme;
     this.dark;
@@ -63,37 +63,37 @@ export class TmdbApp extends connect(store)(localize(i18next)(LitElement)){
       }
     `
   ];
-  
 
-  render(){
+
+  render() {
     return this._initView();
   }
 
-  _initView(){
+  _initView() {
     return html`
       <app-drawer elevation=4></app-drawer>
       <app-section></app-section>
       `
   }
 
-  firstUpdated(){
+  firstUpdated() {
     super.firstUpdated();
     this._getSwipableDrawer;
   }
 
-  get _getSwipableDrawer(){
+  get _getSwipableDrawer() {
     let hammerInstance = new Hammer(document.body);
     hammerInstance.get('swipe').set({ enable: true });
 
-    hammerInstance.on('swipe', function(e){
-      if(e.velocity > 0 && store.getState().app.drawerOpened === false && store.getState().app.layout === 'mobile'){
+    hammerInstance.on('swipe', function (e) {
+      if (e.velocity > 0 && store.getState().app.drawerOpened === false && store.getState().app.layout === 'mobile') {
         store.dispatch({
           type: 'drawerStatusChange',
           drawerOpened: true,
         });
       }
 
-      if(e.velocity < 0 && store.getState().app.drawerOpened && store.getState().app.layout === 'mobile'){
+      if (e.velocity < 0 && store.getState().app.drawerOpened && store.getState().app.layout === 'mobile') {
         store.dispatch({
           type: 'drawerStatusChange',
           drawerOpened: false,
@@ -102,7 +102,7 @@ export class TmdbApp extends connect(store)(localize(i18next)(LitElement)){
     });
   }
 
-  stateChanged(state){
+  stateChanged(state) {
     this.theme = app.selectors.getCurrentTheme(state);
     this.dark = this.theme === 'dark' ? true : false;
     i18next.changeLanguage(app.selectors.getLanguage(state));

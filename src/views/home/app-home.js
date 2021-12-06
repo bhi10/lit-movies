@@ -19,7 +19,7 @@ import * as typography from '@dreamworld/material-styles/typography';
 
 import "@dreamworld/dw-icon";
 
-export class AppHome extends connect(store)(localize(i18next)(LitElement)){
+export class AppHome extends connect(store)(localize(i18next)(LitElement)) {
 
   static styles = [
     css`
@@ -41,41 +41,40 @@ export class AppHome extends connect(store)(localize(i18next)(LitElement)){
     }
   }
 
-  constructor(){
+  constructor() {
     super();
     this.data;
   }
 
-  render(){
-    console.log(this.data);
+  render() {
     return this._getInitView();
   }
 
-  _getInitView(){
-    if(this.data !== undefined){
+  _getInitView() {
+    if (this.data !== undefined) {
       return html`
         <div>
           <h2>Popular Movies</h2>
-          <list-container .dataSet=${this.data.results}></list-container> 
+          <list-container .dataSet=${this.data.results}></list-container>
         </div>
       `
-    }else{
+    } else {
       return html`Loading...`
     }
-    
+
   }
 
-  firstUpdated(){
+  firstUpdated() {
     super.firstUpdated();
     this._getPopularMovies();
   }
 
-  _getPopularMovies(){
+  _getPopularMovies() {
     let promise = api("/movie/popular", 1)
-    .then(res => this.data = res);
+      .then(res => this.data = res);
   }
 
-  stateChanged(state){
+  stateChanged(state) {
     i18next.changeLanguage(app.selectors.getLanguage(state));
   }
 }

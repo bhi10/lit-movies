@@ -14,35 +14,49 @@ import "./list-item";
 //selectors
 import * as app from "../../redux/app";
 
-export class ListContainer extends connect(store)(localize(i18next)(LitElement)){
+export class ListContainer extends connect(store)(localize(i18next)(LitElement)) {
   static styles = [
     css`
       :host{
         flex: 1;
+        display: flex; 
+        width: 100%;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        align-content: flex-start;
+        top: 0;
+        left: 0;
+      }
+
+      .main{
+        flex: 1;
         display: flex;
         flex-wrap: wrap;
-        
+        width: 100%;
       }
     `
   ]
 
   static properties = {
-    dataSet: {type: Object}
+    dataSet: { type: Object }
   }
 
-  constructor(){
+  constructor() {
     super();
     this.dataSet
   }
 
-  render(){
-    console.log(this.dataSet);
+  render() {
     return html`
-      ${this.dataSet.map( row => html`<list-item .data=${row}></list-item>`)}
+      <div class="main owl-carousel">
+        ${this.dataSet.map(row => html`<div>
+          <list-item .data=${row}></list-item>
+        </div>`)}
+      </div>
     `;
   }
 
-  stateChanged(state){
+  stateChanged(state) {
     i18next.changeLanguage(app.selectors.getLanguage(state));
   }
 }

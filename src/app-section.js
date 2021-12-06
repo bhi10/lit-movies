@@ -2,16 +2,16 @@ import { LitElement, html, css } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
-import {store} from './redux/store';
+import { store } from './redux/store';
 
 //Views
 import './views/header/app-header';
 
-import * as app  from "./redux/app";
+import * as app from "./redux/app";
 
 import * as router from './redux/router';
 
-export class AppSection extends connect(store)(LitElement){
+export class AppSection extends connect(store)(LitElement) {
 
   static styles = css`
     :host{
@@ -69,20 +69,20 @@ export class AppSection extends connect(store)(LitElement){
     },
   }
 
-  constructor(){
+  constructor() {
     super();
   }
 
-  render(){
+  render() {
     return this._getInitView();
   }
 
-  _getInitView(){
-    
+  _getInitView() {
+
     return this._getInitView();
   }
 
-  _getInitView(){
+  _getInitView() {
     return html`
       ${this._getBackdropVew()}
       <div class="section" ?opened=${this.drawerOpened}>
@@ -94,30 +94,35 @@ export class AppSection extends connect(store)(LitElement){
     `;
   }
 
-  _getBackdropVew(){
-    return this.layout === 'mobile'  
-    ? html`<div class="backdrop" @click="${this._onDrawerToggel}" ?opened=${this.drawerOpened}></div>` 
-    : html``;
+  _getBackdropVew() {
+    return this.layout === 'mobile'
+      ? html`<div class="backdrop" @click="${this._onDrawerToggel}" ?opened=${this.drawerOpened}></div>`
+      : html``;
   }
 
-  _getPageView(){
+  _getPageView() {
 
-    if(this._page === "root" || this._page === "home"){
+    if (this._page === "root" || this._page === "home") {
       import('./views//home/app-home');
       return html`<app-home></app-home>`
     }
 
-    if(this._page === "shows"){
+    if (this._page === "shows") {
       import('./views/tv-shows/tv-shows.js');
       return html`<tv-shows></tv-shows>`;
     }
 
-    if(this._page === "movies"){
+    if (this._page === "movies") {
       import('./views/movies/app-movies');
       return html`<tmdb-movies></tmdb-movies>`;
     }
-    
-    if(this._page === "not-found"){
+
+    if (this._page === "movie") {
+      import('./views/movies/movie-details');
+      return html`<movie-details></movie-details>`;
+    }
+
+    if (this._page === "not-found") {
       import('./views/not-found');
       return html`<not-found></not-found>`
     }
@@ -126,14 +131,14 @@ export class AppSection extends connect(store)(LitElement){
     return html`<not-found></not-found>`
   }
 
-  _onDrawerToggel(){
+  _onDrawerToggel() {
     store.dispatch({
       type: 'drawerStatusChange',
       drawerOpened: this.drawerOpened ? false : true,
     });
   }
 
-  stateChanged(state){
+  stateChanged(state) {
     this.layout = app.selectors.getLayout(state);
     this.drawerOpened = app.selectors.getDrawerStatus(state);
     this._page = router.selectors.currentPage(state);
