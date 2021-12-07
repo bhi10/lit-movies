@@ -1,6 +1,6 @@
 import { html, css } from "lit";
 
-import { DwSurface } from "./dw-surface";
+import { DwSurface } from "../components/dw-surface";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";

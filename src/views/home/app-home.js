@@ -10,14 +10,9 @@ import * as app from "../../redux/app";
 import i18next from '@dw/i18next-esm';
 import { localize } from '@dw/pwa-helpers';
 
-//custom element
-import "../components/list-container";
-
-import api from "../../redux/api";
-
 import * as typography from '@dreamworld/material-styles/typography';
 
-import "@dreamworld/dw-icon";
+import "../components/my-loader";
 
 export class AppHome extends connect(store)(localize(i18next)(LitElement)) {
 
@@ -27,23 +22,15 @@ export class AppHome extends connect(store)(localize(i18next)(LitElement)) {
         display: flex;
         flex: 1;
       }
-
-      h2{
-        margin:0;
-        margin-bottom: 8px;
-      }
     `
   ]
 
   static properties = {
-    data: {
-      type: Object
-    }
+
   }
 
   constructor() {
     super();
-    this.data;
   }
 
   render() {
@@ -51,27 +38,9 @@ export class AppHome extends connect(store)(localize(i18next)(LitElement)) {
   }
 
   _getInitView() {
-    if (this.data !== undefined) {
-      return html`
-        <div>
-          <h2>Popular Movies</h2>
-          <list-container .dataSet=${this.data.results}></list-container>
-        </div>
-      `
-    } else {
-      return html`Loading...`
-    }
 
-  }
+    return html`<my-loader></my-loader>`;
 
-  firstUpdated() {
-    super.firstUpdated();
-    this._getPopularMovies();
-  }
-
-  _getPopularMovies() {
-    let promise = api("/movie/popular", 1)
-      .then(res => this.data = res);
   }
 
   stateChanged(state) {
