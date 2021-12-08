@@ -4,6 +4,6 @@
   "movies": "Movies",
   "shows": "Shows",
   "notfound": "Not Found",
-  "theme": "{{val}} Theme",
+  "theme": "Theme",
   "language": "Language"
 }

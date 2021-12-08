@@ -31,8 +31,8 @@ export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)) {
         padding: 4px;
         width: var(--drawer-width);
         left: calc(var(--drawer-width) * -1.05);
-        height: calc(100vh - 8px);
-        margin: 4px;
+        height: calc(100vh - 16px);
+        margin: 8px;
         transition: left var(--drawer-open-time);
       }
 

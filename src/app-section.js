@@ -23,9 +23,9 @@ export class AppSection extends connect(store)(LitElement) {
       flex: 1 1 0%;
       background-color: rgba(0, 0, 0, 0);
       z-index: -9;
-      position: absolute;
+      position: fixed;
       width: 100%;
-      height: 100%;
+      min-height: 100vh;
       transition: background-color var(--drawer-open-time);
     }
 
@@ -47,7 +47,7 @@ export class AppSection extends connect(store)(LitElement) {
     }
 
     :host([layout='desktop']) .section[opened]{
-      margin-left: calc(var(--drawer-width) + 4px);
+      margin-left: calc(var(--drawer-width) + 16px);
     }
 
     .body{
@@ -66,6 +66,9 @@ export class AppSection extends connect(store)(LitElement) {
     },
     _page: {
       type: String
+    },
+    _id: {
+      type: Number
     },
   }
 
@@ -112,12 +115,12 @@ export class AppSection extends connect(store)(LitElement) {
       return html`<tv-shows></tv-shows>`;
     }
 
-    if (this._page === "movies") {
+    if (this._page === "movies" && this._id === undefined) {
       import('./views/movies/app-movies');
       return html`<tmdb-movies></tmdb-movies>`;
     }
 
-    if (this._page === "movie") {
+    if (this._page === "movies" && this._id !== undefined) {
       import('./views/movies/movie-details');
       return html`<movie-details></movie-details>`;
     }
@@ -142,6 +145,7 @@ export class AppSection extends connect(store)(LitElement) {
     this.layout = app.selectors.getLayout(state);
     this.drawerOpened = app.selectors.getDrawerStatus(state);
     this._page = router.selectors.currentPage(state);
+    this._id = router.selectors.currentId(state);
     console.log(state);
   }
 }

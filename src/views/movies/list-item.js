@@ -71,7 +71,7 @@ export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
   }
 
   handleClick(e) {
-    router.navigatePage("movie", { id: this.data.id }, false);
+    router.navigatePage("movies", { id: this.data.id }, false);
   }
 
   stateChanged(state) {

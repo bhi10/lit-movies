@@ -1,7 +1,11 @@
 import { store } from "./store";
 import * as app from "./app";
 
+import { getLanguage } from "./app/selectors";
+
 export default async (string, page) => {
+
+  let curLang = getLanguage(store.getState()) == "en" ? "en-US" : getLanguage(store.getState()) == "hi" ? "hi-IN" : "gu-IN";
 
   let url = "".concat(
     app.selectors.apiBaseUrl(store.getState()),
@@ -10,7 +14,8 @@ export default async (string, page) => {
     app.selectors.apiKey(store.getState()),
     "&page=",
     page,
-    "&language=en-US"
+    "&language=",
+    curLang
   );
 
   let res;

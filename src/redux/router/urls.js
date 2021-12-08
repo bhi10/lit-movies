@@ -26,9 +26,9 @@ export const URLs = {
       pathPattern: '/not-found'
     },
     {
-      module: 'Movie',
-      name: 'movie',
-      pathPattern: '/movie/:id'
+      module: 'Movies',
+      name: 'movies',
+      pathPattern: '/movies/:id'
     },
     {
       module: 'NotFound',

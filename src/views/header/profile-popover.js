@@ -3,7 +3,7 @@ import { DwCompositeDialog } from '@dreamworld/dw-dialog/dw-composite-dialog.js'
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin";
-import {store} from '../../redux/store.js';
+import { store } from '../../redux/store.js';
 
 import * as app from '../../redux/app';
 
@@ -18,24 +18,24 @@ import '@dreamworld/dw-list-item/dw-list-item';
 import './theme-composite.js';
 import './language-composite.js';
 
-class ProfilePopover extends connect(store)(localize(i18next)(DwCompositeDialog)){
-  constructor(){
+class ProfilePopover extends connect(store)(localize(i18next)(DwCompositeDialog)) {
+  constructor() {
     super();
     this.triggerElement;
     this.type = 'popover';
     this.i18nextNameSpace = ['app'];
   }
 
-  static get properties(){
-    return{
+  static get properties() {
+    return {
       _language: {
         type: String,
       }
     }
   }
 
-  static get styles(){
-    return[
+  static get styles() {
+    return [
       super.styles,
       css`
         :host{
@@ -58,37 +58,39 @@ class ProfilePopover extends connect(store)(localize(i18next)(DwCompositeDialog)
     ];
   }
 
-  get _headerTemplate(){
+  get _headerTemplate() {
     return html`
       <img src="src/img/not-found/page-not-found.png">
     `;
   }
 
-  get _contentTemplate(){
+  get _contentTemplate() {
     return html`
-      <dw-list-item id="theme" @click=${this._openThemePopover} title1="${i18next.t('theme', {val: this.type})}" leadingIcon="brightness_7" trailingIcon="navigate_next" selectionMode="none"></dw-list-item>
-      <dw-list-item id="Language" @click=${this._openLanguagePopover} title1="${i18next.t('language')}" leadingIcon="language" trailingIcon="navigate_next" selectionMode="none"></dw-list-item>
-
+      <dw-list-item id="theme" @click=${this._openThemePopover} title1="${i18next.t('theme')}" leadingIcon="brightness_7"
+        trailingIcon="navigate_next" selectionMode="none"></dw-list-item>
+      <dw-list-item id="Language" @click=${this._openLanguagePopover} title1="${i18next.t('language')}" leadingIcon="language"
+        trailingIcon="navigate_next" selectionMode="none"></dw-list-item>
+      
       <theme-composite showTrigger></theme-composite>
       <language-composite showTrigger></language-composite>
     `;
   }
 
-  _openThemePopover(e){
+  _openThemePopover(e) {
     let dialog = this.renderRoot.querySelector('theme-composite');
     dialog.showTrigger = true;
     dialog.popoverPlacement = 'left-start';
     dialog.open(e.target);
   }
 
-  _openLanguagePopover(e){
+  _openLanguagePopover(e) {
     let dialog = this.renderRoot.querySelector('language-composite');
     dialog.showTrigger = true;
     dialog.popoverPlacement = 'left-start';
     dialog.open(e.target);
   }
 
-  stateChanged(state){
+  stateChanged(state) {
     this._language = app.selectors.getLanguage(state);
   }
 }

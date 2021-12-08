@@ -13,11 +13,37 @@ import * as app from './../../redux/app';
 
 import api from "../../redux/api";
 
+//Custom-components
+import "./../components/my-loader";
+
 export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) {
 
   static styles = [
     css`
 
+      :host{
+        display: flex;
+        flex: 1;
+      }
+
+      .header{
+        display: flex;
+      }
+
+      .header .detail{
+        padding-left: 16px;
+      }
+
+      .header h2{
+        font-weight: 700;
+        margin: 0;
+      }
+
+      img{
+        width: auto;
+        height: 450px;
+        border-radius: 8px;
+      }
     `
   ];
 
@@ -45,15 +71,32 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
   _getInitView() {
 
     if (this._data !== undefined) {
-      let imageUrl = "".concat(this.imageUrl, this._data.poster_path);
-
       return html`
-        <img src=${imageUrl}>
+        <div class="header">
+          ${this._headerview()}
+        </div>
       `;
     }
 
-    return html`Loading...`;
+    return html`<my-loader></my-loader>`;
 
+  }
+
+  _headerview() {
+    let imageUrl = "".concat(this.imageUrl, this._data.poster_path);
+    let date = new Date(this._data.release_date);
+
+    return html`
+      <img src=${imageUrl}>
+      <div class="detail">
+        <h2>${this._data.title} (${date.getFullYear()})</h2>
+      
+        <div class="overview">
+          <h4>Overview</h4>
+          <p>${this._data.overview}</p>
+        </div>
+      </div>
+    `;
   }
 
   _getData() {
