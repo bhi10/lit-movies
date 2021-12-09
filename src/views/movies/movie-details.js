@@ -105,9 +105,9 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
   }
 
   stateChanged(state) {
+    i18next.changeLanguage(app.selectors.getLanguage(state));
     this._id = router.selectors.currentId(state);
     this.imageUrl = app.selectors.apiImageUrl(state);
-    i18next.changeLanguage(app.selectors.getLanguage(state));
   }
 }
 

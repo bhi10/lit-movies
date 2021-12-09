@@ -54,7 +54,6 @@ export class TmdbMovies extends connect(store)(localize(i18next)(LitElement)) {
   }
 
   render() {
-    console.log("App Movies: render() invoked", this.data, this.queryString);
     return this._getInitView();
   }
 
