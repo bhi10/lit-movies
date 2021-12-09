@@ -20,7 +20,6 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
 
   static styles = [
     css`
-
       :host{
         display: flex;
         flex: 1;
@@ -55,16 +54,13 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
   constructor() {
     super();
     this.imageUrl;
-    this._getData();
   }
 
   render() {
-    console.log(this._data);
     return this._getInitView();
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  firstUpdated() {
     this._getData();
   }
 
@@ -103,6 +99,7 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
     if (this._id !== undefined) {
       api("/movie/" + this._id, 1)
         .then(res => this._data = res)
+        .then(res => console.log(res))
     }
 
   }

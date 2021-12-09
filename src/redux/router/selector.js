@@ -8,4 +8,8 @@ export const currentModule = (state) => {
   return state.router.page.module;
 }
 
-export const currentId = (state) => get(state, 'router.page.params.id')
+export const currentId = (state) => get(state, 'router.page.params.id');
+
+export const currentPageNumber = (state) => get(state, 'router.page.params.page');
+
+export const currentQueryString = (state) => get(state, 'router.page.params.query');

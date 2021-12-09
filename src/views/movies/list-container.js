@@ -34,6 +34,11 @@ export class ListContainer extends connect(store)(localize(i18next)(LitElement))
         flex-wrap: wrap;
         width: 100%;
       }
+
+      .main div{
+        margin-right: 8px;
+        margin-bottom: 8px;
+      }
     `
   ]
 

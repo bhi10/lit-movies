@@ -26,11 +26,6 @@ export const URLs = {
       pathPattern: '/not-found'
     },
     {
-      module: 'Movies',
-      name: 'movies',
-      pathPattern: '/movies/:id'
-    },
-    {
       module: 'NotFound',
       name: 'not-found',
       pathPattern: '/([0-9a-fA-F]{8}[0-9a-fA-F]{4}[0-9a-fA-F]{4}[0-9a-fA-F]{4}[0-9a-fA-F]{12})?(.*)'

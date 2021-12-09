@@ -20,9 +20,7 @@ export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
     css`
       :host{
         width: min-content;
-        height: max-content;
-        margin-right: 8px;
-        margin-bottom: 8px;
+        height: 100%;
         overflow: hidden;
         cursor: pointer;
       }

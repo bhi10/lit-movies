@@ -2,10 +2,12 @@ import { store } from "./store";
 import * as app from "./app";
 
 import { getLanguage } from "./app/selectors";
+import { currentQueryString } from "./router/selector";
 
 export default async (string, page) => {
 
-  let curLang = getLanguage(store.getState()) == "en" ? "en-US" : getLanguage(store.getState()) == "hi" ? "hi-IN" : "gu-IN";
+  let curLang = getLanguage(store.getState()) === "en" ? "en-US" : getLanguage(store.getState()) === "hi" ? "hi-IN" : "gu-IN";
+  let search = currentQueryString(store.getState()) === undefined ? "" : "".concat("&query=", currentQueryString(store.getState()));
 
   let url = "".concat(
     app.selectors.apiBaseUrl(store.getState()),
@@ -15,7 +17,8 @@ export default async (string, page) => {
     "&page=",
     page,
     "&language=",
-    curLang
+    curLang,
+    search
   );
 
   let res;
