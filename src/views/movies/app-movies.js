@@ -30,6 +30,21 @@ export class TmdbMovies extends connect(store)(localize(i18next)(LitElement)) {
         margin:0;
         margin-bottom: 8px;
       }
+
+      .main{
+        flex: 1;
+      }
+
+      .filter{
+        display: flex;
+        flex: 1;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .filter dw-input{
+        width: 320px;
+      }
     `
   ]
 
@@ -60,13 +75,13 @@ export class TmdbMovies extends connect(store)(localize(i18next)(LitElement)) {
   _getInitView() {
     if (this.data !== undefined) {
       return html`
-        <div>
-          <div>
+        <div class="main">
+          <div class="filter">
             <dw-input @keyup=${this._onKeyup} value=${this.queryString} placeholder="Search"></dw-input>
+            <dw-button @click=${this._onNextClick} icon="navigate_next" trailingIcon raised>Next</dw-button>
           </div>
           <h2>Popular Movies</h2>
           <list-container .dataSet=${this.data.results}></list-container>
-          <dw-button @click=${this._onNextClick}>Next</dw-button>
         </div>
       `
     }
