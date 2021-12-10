@@ -59,7 +59,7 @@ export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
   }
 
   get _getContentTemplate() {
-    let imageUrl = "".concat(this.imageUrl, this.data.poster_path);
+    let imageUrl = "".concat(this.imageUrl, "/w500", this.data.poster_path);
     return html`
       <img src=${imageUrl} />
       <div class="details">

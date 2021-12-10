@@ -1,5 +1,7 @@
 import { LitElement, html, css } from "lit";
 
+import { unsafeCSS } from "@lit/reactive-element";
+
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
 import { store } from "../../redux/store";
@@ -27,6 +29,11 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
 
       .header{
         display: flex;
+        flex: 1;
+        background-size: cover;
+        background-repeat: no-repeat;
+        color: white;
+        padding: 20px;
       }
 
       .header .detail{
@@ -67,19 +74,19 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
   _getInitView() {
 
     if (this._data !== undefined) {
+      let backgroundImageUrl = "".concat(this.imageUrl, "/w1920_and_h800_multi_faces", this._data.backdrop_path);
+
       return html`
-        <div class="header">
+        <div class="header" style="background: linear-gradient(to right, rgb(4, 28, 50, 0.9), rgb(4, 41, 58, 0.7)), url(${backgroundImageUrl}); background-size: cover;">
           ${this._headerview()}
         </div>
       `;
     }
-
     return html`<my-loader></my-loader>`;
-
   }
 
   _headerview() {
-    let imageUrl = "".concat(this.imageUrl, this._data.poster_path);
+    let imageUrl = "".concat(this.imageUrl, "/w500", this._data.poster_path);
     let date = new Date(this._data.release_date);
 
     return html`

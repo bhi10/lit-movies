@@ -52,7 +52,6 @@ export class AppSection extends connect(store)(LitElement) {
 
     .body{
       display: flex;
-      flex: 1;
     }
   `;
 
@@ -89,7 +88,7 @@ export class AppSection extends connect(store)(LitElement) {
     return html`
       ${this._getBackdropVew()}
       <div class="section" ?opened=${this.drawerOpened}>
-        <app-header elevation=${this.layout==="mobile" ? 1 : 0}></app-header>
+        <app-header elevation=${this.layout === "mobile" ? 1 : 0}></app-header>
         <div class="body">
           ${this._getPageView()}
         </div>
