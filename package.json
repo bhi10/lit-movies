@@ -2,6 +2,8 @@
   "name": "tmdb",
   "version": "1.0.0",
   "type": "module",
+  "main": "index.html",
+  "module": "index.html",
   "scripts": {
     "start": "web-dev-server --node-resolve --app-index index.html --open",
     "build": "rimraf dist && node fix-open-wc-build.js  && rollup -c rollup.config.js",

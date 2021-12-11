@@ -17,6 +17,7 @@ import api from "../../redux/api";
 
 //Custom-components
 import "./../components/my-loader";
+import "../components/dw-surface";
 
 export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) {
 
@@ -25,6 +26,15 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
       :host{
         display: flex;
         flex: 1;
+      }
+
+      :host([layout="mobile"]) .header{
+        flex-direction: column;
+      }
+
+      :host([layout="mobile"]) .header .detail{
+        padding-left: 0;
+        padding-top: 16px;
       }
 
       .header{
@@ -46,8 +56,8 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
       }
 
       img{
-        width: auto;
-        height: 450px;
+        width: 320px;
+        height: auto;
         border-radius: 8px;
       }
     `
@@ -55,7 +65,11 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
 
   static properties = {
     _id: { type: String },
-    _data: { type: Object }
+    _data: { type: Object },
+    layout: {
+      type: String,
+      reflect: true
+    }
   }
 
   constructor() {
@@ -77,7 +91,7 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
       let backgroundImageUrl = "".concat(this.imageUrl, "/w1920_and_h800_multi_faces", this._data.backdrop_path);
 
       return html`
-        <div class="header" style="background: linear-gradient(to right, rgb(4, 28, 50, 0.9), rgb(4, 41, 58, 0.7)), url(${backgroundImageUrl}); background-size: cover;">
+        <div class="header" style="background: linear-gradient(to right, rgb(4, 28, 50, 0.8), rgb(4, 41, 58, 0.4)), url(${backgroundImageUrl}); background-size: cover;">
           ${this._headerview()}
         </div>
       `;
@@ -92,13 +106,26 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
     return html`
       <img src=${imageUrl}>
       <div class="detail">
-        <h2>${this._data.title} (${date.getFullYear()})</h2>
+        <h2>${this._data.title} </h2>
+
+        ${this._getGenresView()}
       
         <div class="overview">
           <h4>Overview</h4>
           <p>${this._data.overview}</p>
         </div>
       </div>
+    `;
+  }
+
+  _getGenresView(){
+
+    let date = new Date(this._data.release_date);
+    let genresString = this._data.genres.map( (e) => e.name);
+    return html`<small>
+      ${date.toLocaleDateString("en-US")} - 
+      ${genresString.join(", ")} - 
+      </small>
     `;
   }
 
@@ -115,6 +142,7 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
     i18next.changeLanguage(app.selectors.getLanguage(state));
     this._id = router.selectors.currentId(state);
     this.imageUrl = app.selectors.apiImageUrl(state);
+    this.layout = app.selectors.getLayout(state);
   }
 }
 

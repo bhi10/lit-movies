@@ -41,10 +41,6 @@ export class TmdbMovies extends connect(store)(localize(i18next)(LitElement)) {
         justify-content: space-between;
         align-items: center;
       }
-
-      .filter dw-input{
-        width: 320px;
-      }
     `
   ]
 
