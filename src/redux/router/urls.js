@@ -21,6 +21,11 @@ export const URLs = {
       pathPattern: '/shows',
     },
     {
+      module: 'Person',
+      name: 'person',
+      pathPattern: '/person',
+    },
+    {
       module: 'NotFound',
       name: 'not-found',
       pathPattern: '/not-found'

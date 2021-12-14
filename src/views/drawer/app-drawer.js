@@ -106,7 +106,6 @@ export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)) {
   }
 
   _onPageChange(e) {
-    console.log(e.target.getAttribute("lable"));
     if (this._page !== e.target.getAttribute("lable")) {
       router.navigatePage(e.target.getAttribute("lable"), true);
 
