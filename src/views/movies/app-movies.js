@@ -59,7 +59,7 @@ export class TmdbMovies extends connect(store)(localize(i18next)(LitElement)) {
   constructor() {
     super();
     this.data;
-    this.pageNumber;
+    this.pageNumber = 1;
     this.timer;
     this.waitTime = 1000;
   }

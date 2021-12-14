@@ -28,6 +28,10 @@ export class ListContainer extends connect(store)(localize(i18next)(LitElement))
         left: 0;
       }
 
+      :host([layout='mobile']) .main{
+        justify-content: center;
+      }
+
       .main{
         flex: 1;
         display: flex;
@@ -43,26 +47,45 @@ export class ListContainer extends connect(store)(localize(i18next)(LitElement))
   ]
 
   static properties = {
-    dataSet: { type: Object }
+    dataSet: { type: Object },
+    layout: {
+      type: String,
+      reflect: true
+    },
+    imageUrl: { 
+      type: String 
+    }
   }
 
   constructor() {
     super();
-    this.dataSet
+    this.dataSet;
+
   }
 
   render() {
     return html`
-      <div class="main owl-carousel">
-        ${this.dataSet.map(row => html`<div>
-          <list-item .data=${row}></list-item>
-        </div>`)}
+      <div class="main">
+        ${this.dataSet.map(row => {
+          let imageUrl = "".concat(this.imageUrl, "/w500", row.poster_path);
+          return html`
+            <div>
+              <list-item .id=${row.id} redirect="movies">
+
+                <img slot="image" src=${imageUrl} />
+                <h2 slot="title1">${row.title}</h2>
+                  
+              </list-item>
+            </div>`
+        } )}
       </div>
     `;
   }
 
   stateChanged(state) {
     i18next.changeLanguage(app.selectors.getLanguage(state));
+    this.layout = app.selectors.getLayout(state);
+    this.imageUrl = app.selectors.apiImageUrl(state);
   }
 }
 

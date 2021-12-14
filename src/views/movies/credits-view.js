@@ -1,5 +1,4 @@
 import { html, css } from "lit";
-
 import { DwSurface } from "../components/dw-surface";
 
 //Redux
@@ -14,7 +13,7 @@ import { localize } from '@dw/pwa-helpers';
 import * as app from "../../redux/app";
 import * as router from '../../redux/router';
 
-export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
+export class CreditsView extends connect(store)(localize(i18next)(DwSurface)){
   static styles = [
     DwSurface.styles,
     css`
@@ -25,7 +24,7 @@ export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
         cursor: pointer;
       }
 
-      ::slotted(img){
+      img{
         width: auto;
         height: 256px;
       }
@@ -35,58 +34,64 @@ export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
         text-align: center;
       }
 
-      ::slotted(h2){
-        font-size: 1rem;
+      h2{
+        font-size: 0.875rem;
         margin: 0;
         width: 100%;
         overflow-wrap: break-word;
         font-weight: 700;
       }
 
-      ::slotted(h3){
+      h3{
         font-size: 0.75rem;
         width: 100%;
         overflow-wrap: break-word;
         font-weight: 600;
-        margin: 0;
-        margin-top: 8px;
       }
     `
   ];
 
   static properties = {
-    id: {
-      type: Number,
+    data: { type: Object },
+    imageUrl: { type: String },
+    layout: {
+      type: String,
       reflect: true
-    },
-    redirect: {
-      type: String
     }
   }
 
-  constructor() {
+  constructor(){
     super();
     this.elevation = 2;
-    this.addEventListener('click', this.handleClick);
+    this.data;
+    this.imageUrl;
+    this.addEventListener('click', this._handleClick);
   }
 
-  get _getContentTemplate() {
+  get _getContentTemplate(){
+    let imageUrl = "src/img/avatar/avatar170x256.png";
+    if(this.data.profile_path !== null){
+      imageUrl = "".concat(this.imageUrl, "/w500", this.data.profile_path);
+    }
+    
     return html`
-      <slot name="image"></slot>
+      <img src=${imageUrl} />
       <div class="details">
-        <slot name="title1"></slot>
-        <slot name="title2"></slot>
+        <h2>${this.data.original_name}</h2>
+        <h3>as ${this.data.character}</h3>
       </div>
     `;
   }
 
-  handleClick(e) {
-    router.navigatePage(this.redirect, { id: this.id }, false);
+  _handleClick(){
+    router.navigatePage("person", { id: this.data.id }, false);
   }
 
   stateChanged(state) {
     i18next.changeLanguage(app.selectors.getLanguage(state));
+    this.imageUrl = app.selectors.apiImageUrl(state);
+    this.layout = app.selectors.getLayout(state);
   }
 }
 
-window.customElements.define("list-item", ListItem);
+window.customElements.define("credits-view", CreditsView);

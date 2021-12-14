@@ -16,10 +16,9 @@ import api from "../../redux/api";
 //Custom-components
 import "./../components/my-loader";
 import "../components/dw-surface";
-import "./credits-view";
 import "./list-item";
 
-export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) {
+export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
 
   static styles = [
     css`
@@ -41,7 +40,6 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
         flex: 1;
         background-size: cover;
         background-repeat: no-repeat;
-        color: white;
         padding: 20px;
       }
 
@@ -98,6 +96,7 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
   constructor() {
     super();
     this.imageUrl;
+    this.addEventListener('click', this.handleClick);
   }
 
   render() {
@@ -122,16 +121,15 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
   }
 
   _headerview() {
-    let imageUrl = "".concat(this.imageUrl, "/w500", this._data.poster_path);
-    let backgroundImageUrl = "".concat(this.imageUrl, "/w1920_and_h800_multi_faces", this._data.backdrop_path);
+    let imageUrl = "".concat(this.imageUrl, "/w500", this._data.profile_path);
 
     return html`
-      <div class="header" style="background: linear-gradient(to right, rgb(4, 28, 50, 0.8), rgb(4, 41, 58, 0.4)), url(${backgroundImageUrl}); background-size: cover;">
+      <div class="header">
         <img src=${imageUrl}>
         <div class="detail">
-          <h2>${this._data.title} </h2>
+          <h2>${this._data.name} </h2>
 
-          ${this._getGenresView()}
+          
         
           <div class="overview">
             <h4>Overview</h4>
@@ -167,18 +165,18 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
       return html`
         <h4>Cast</h4>
         <div class="main">
-          ${this._credits.cast.slice(0, 20).map(row => {
-            let imageUrl = "src/img/avatar/avatar170x256.png";
-            if(row.profile_path !== null){
-              imageUrl = "".concat(this.imageUrl, "/w500", row.profile_path);
-            }
+          ${this._credits.cast.map(row => {
             
+            let mImageUrl = "src/img/avatar/avatar170x256.png";
+            if(row.poster_path !== null || row.poster_path !== undefined){
+              mImageUrl = "".concat(this.imageUrl, "/w500", row.poster_path);
+            }            
+
             return html`
             <div>
-              <list-item .id=${row.id} redirect="person">
-                <img slot="image" src=${imageUrl} />
-                <h2 slot="title1">${row.name}</h2>
-                <h3 slot="title2">as ${row.character}</h3>
+              <list-item .id=${row.id} redirect="movies">
+              <img slot="image" src=${mImageUrl}>
+                <h2 slot="title1">${row.title}</h2>
               </list-item>
             </div>`
           })}
@@ -191,10 +189,10 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
 
   _getData() {
     if (this._id !== undefined) {
-      api("/movie/" + this._id, 1)
+      api("/person/" + this._id, 1)
         .then(res => this._data = res)
 
-      api("/movie/" + this._id + "/credits", 1)
+      api("/person/" + this._id + "/credits", 1)
         .then(res => this._credits = res)
     }
 
@@ -208,4 +206,4 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
   }
 }
 
-window.customElements.define("movie-details", MovieDetails);
+window.customElements.define("person-view", PersonView);

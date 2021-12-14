@@ -25,7 +25,7 @@ export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
         cursor: pointer;
       }
 
-      ::slotted(img){
+      img{
         width: auto;
         height: 256px;
       }
@@ -35,57 +35,50 @@ export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
         text-align: center;
       }
 
-      ::slotted(h2){
+      h2{
         font-size: 1rem;
         margin: 0;
         width: 100%;
         overflow-wrap: break-word;
         font-weight: 700;
       }
-
-      ::slotted(h3){
-        font-size: 0.75rem;
-        width: 100%;
-        overflow-wrap: break-word;
-        font-weight: 600;
-        margin: 0;
-        margin-top: 8px;
-      }
     `
   ];
 
   static properties = {
-    id: {
-      type: Number,
-      reflect: true
+    data: { 
+      type: Object 
     },
-    redirect: {
-      type: String
+    imageUrl: { 
+      type: String 
     }
   }
 
   constructor() {
     super();
     this.elevation = 2;
+    this.data;
+    this.imageUrl;
     this.addEventListener('click', this.handleClick);
   }
 
   get _getContentTemplate() {
+    let imageUrl = "".concat(this.imageUrl, "/w500", this.data.poster_path);
     return html`
-      <slot name="image"></slot>
+      <img src=${imageUrl} />
       <div class="details">
-        <slot name="title1"></slot>
-        <slot name="title2"></slot>
+        <h2>${this.data.title}</h2>
       </div>
     `;
   }
 
   handleClick(e) {
-    router.navigatePage(this.redirect, { id: this.id }, false);
+    router.navigatePage("movies", { id: this.data.id }, false);
   }
 
   stateChanged(state) {
     i18next.changeLanguage(app.selectors.getLanguage(state));
+    this.imageUrl = app.selectors.apiImageUrl(state);
   }
 }
 

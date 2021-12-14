@@ -124,6 +124,11 @@ export class AppSection extends connect(store)(LitElement) {
       return html`<movie-details></movie-details>`;
     }
 
+    if (this._page === "person" && this._id !== undefined) {
+      import('./views/movies/person-view');
+      return html`<person-view></person-view>`;
+    }
+
     if (this._page === "not-found") {
       import('./views/not-found');
       return html`<not-found></not-found>`
