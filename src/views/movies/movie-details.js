@@ -16,7 +16,6 @@ import api from "../../redux/api";
 //Custom-components
 import "./../components/my-loader";
 import "../components/dw-surface";
-import "./credits-view";
 import "./list-item";
 
 export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) {
