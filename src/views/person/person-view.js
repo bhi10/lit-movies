@@ -16,7 +16,7 @@ import api from "../../redux/api";
 //Custom-components
 import "./../components/my-loader";
 import "../components/dw-surface";
-import "./list-item";
+import "../movies/list-item";
 
 export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
 
@@ -163,20 +163,21 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
   _getCastView(){
     if(this._credits !== undefined){
       return html`
-        <h4>Cast</h4>
+        <h4>Known for</h4>
         <div class="main">
           ${this._credits.cast.map(row => {
             
-            let mImageUrl = "src/img/avatar/avatar170x256.png";
-            if(row.poster_path !== null || row.poster_path !== undefined){
+            let mImageUrl = "src/img/not-found/not-available.png";
+            if(row.poster_path !== null){
               mImageUrl = "".concat(this.imageUrl, "/w500", row.poster_path);
             }            
 
             return html`
             <div>
               <list-item .id=${row.id} redirect="movies">
-              <img slot="image" src=${mImageUrl}>
+                <img slot="image" src=${mImageUrl}>
                 <h2 slot="title1">${row.title}</h2>
+                ${row.character !== null && row.character !== "" ? html`<h3 slot="title2">as ${row.character}</h3>` : html``}
               </list-item>
             </div>`
           })}

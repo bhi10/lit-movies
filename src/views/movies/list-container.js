@@ -40,8 +40,8 @@ export class ListContainer extends connect(store)(localize(i18next)(LitElement))
       }
 
       .main div{
-        margin-right: 8px;
-        margin-bottom: 8px;
+        margin-right: 16px;
+        margin-bottom: 16px;
       }
     `
   ]
@@ -67,7 +67,10 @@ export class ListContainer extends connect(store)(localize(i18next)(LitElement))
     return html`
       <div class="main">
         ${this.dataSet.map(row => {
-          let imageUrl = "".concat(this.imageUrl, "/w500", row.poster_path);
+          let imageUrl = "src/img/not-found/not-available.png";
+          if(row.poster_path !== null){
+            imageUrl = "".concat(this.imageUrl, "/w500", row.poster_path);
+          }
           return html`
             <div>
               <list-item .id=${row.id} redirect="movies">

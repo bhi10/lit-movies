@@ -23,6 +23,13 @@ export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
         height: 100%;
         overflow: hidden;
         cursor: pointer;
+        transition: all 0.5s ease-in-out;
+      }
+
+      :host(:hover){
+        transform: scale(1.05);
+        box-shadow: var(--mdc-elevation--z8);
+        z-index: 1;
       }
 
       ::slotted(img){

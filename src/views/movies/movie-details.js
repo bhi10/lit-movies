@@ -167,10 +167,11 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
         <h4>Cast</h4>
         <div class="main">
           ${this._credits.cast.slice(0, 20).map(row => {
-            let imageUrl = "src/img/avatar/avatar170x256.png";
+            let imageUrl = "src/img/not-found/not-available.png";
             if(row.profile_path !== null){
               imageUrl = "".concat(this.imageUrl, "/w500", row.profile_path);
             }
+            let releaseDate
             
             return html`
             <div>

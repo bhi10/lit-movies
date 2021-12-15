@@ -5,5 +5,7 @@
   "shows": "Shows",
   "notfound": "Not Found",
   "theme": "Theme",
-  "language": "Language"
+  "language": "Language",
+  "person": "Person",
+  "test": "Test"
 }

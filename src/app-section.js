@@ -88,7 +88,7 @@ export class AppSection extends connect(store)(LitElement) {
     return html`
       ${this._getBackdropVew()}
       <div class="section" ?opened=${this.drawerOpened}>
-        <app-header elevation=${this.layout === "mobile" ? 1 : 0}></app-header>
+        <app-header elevation=${this.layout==="mobile" ? 1 : 0}></app-header>
         <div class="body">
           ${this._getPageView()}
         </div>
@@ -116,7 +116,7 @@ export class AppSection extends connect(store)(LitElement) {
 
     if (this._page === "movies" && this._id === undefined) {
       import('./views/movies/app-movies');
-      return html`<tmdb-movies></tmdb-movies>`;
+      return html`<app-movies></app-movies>`;
     }
 
     if (this._page === "movies" && this._id !== undefined) {
@@ -124,9 +124,19 @@ export class AppSection extends connect(store)(LitElement) {
       return html`<movie-details></movie-details>`;
     }
 
+    if (this._page === "person" && this._id === undefined) {
+      import('./views/person/app-person');
+      return html`<app-person></app-person>`;
+    }
+
     if (this._page === "person" && this._id !== undefined) {
-      import('./views/movies/person-view');
+      import('./views/person/person-view');
       return html`<person-view></person-view>`;
+    }
+
+    if (this._page === "test") {
+      import('./views/test/test-page');
+      return html`<test-page></test-page>`;
     }
 
     if (this._page === "not-found") {

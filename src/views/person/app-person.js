@@ -12,13 +12,13 @@ import api from "../../redux/api";
 import i18next from '@dw/i18next-esm';
 import { localize } from '@dw/pwa-helpers';
 
-//custom element
+//components
 import "../components/my-loader";
-import "./list-container";
 import "@dreamworld/dw-button";
 import "@dreamworld/dw-input";
+import "../movies/list-item";
 
-export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
+export class AppPerson extends connect(store)(localize(i18next)(LitElement)){
 
   static styles = [
     css`
@@ -42,49 +42,82 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
         justify-content: space-between;
         align-items: center;
       }
+
+      .body{
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .body div{
+        margin-right: 8px;
+        margin-bottom: 8px;
+      }
+
     `
-  ]
+  ];
 
   static properties = {
-    data: {
+    _data: {
       type: Object
     },
-    pageNumber: {
+    _pageNumber: {
       type: Number
     },
-    queryString: {
+    _queryString: {
       type: String
     }
   }
 
-  constructor() {
+  constructor(){
     super();
-    this.data;
+    this._data;
     this.pageNumber = 1;
     this.timer;
     this.waitTime = 1000;
   }
 
-  render() {
+  render(){
     return this._getInitView();
   }
 
-  _getInitView() {
-    if (this.data !== undefined) {
+  _getInitView(){
+    if(this._data !== undefined){
+      console.log(this._data);
       return html`
         <div class="main">
           <div class="filter">
             <dw-input @keyup=${this._onSearch} value=${this.queryString} placeholder="Search"></dw-input>
             <dw-button @click=${this._onNextClick} icon="navigate_next" trailingIcon raised>Next</dw-button>
           </div>
-          <h2>Popular Movies</h2>
-          <list-container .dataSet=${this.data.results}></list-container>
+          <h2>Popular Persons</h2>
+          ${this._getPersonsView()}
         </div>
-      `
+      `;
     }
-
     return html`<my-loader></my-loader>`;
+  }
 
+  _getPersonsView(){
+    return html`
+      <div class="body">
+        ${this._data.map( row => {
+          let imageUrl = "src/img/not-found/not-available.png";
+          if(row.profile_path !== null){
+            imageUrl = "".concat(this.imageUrl, "/w500", row.profile_path);
+          }
+          return html`
+            <div>
+              <list-item .id=${row.id} redirect="person">
+                <img slot="image" src=${imageUrl} />
+                <h2 slot="title1">${row.name}</h2>
+              </list-item>
+            </div>
+          `
+        })}
+      </div>
+    `;
   }
 
   _onSearch(e) {
@@ -101,40 +134,40 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
 
   searchMovies(str) {
     if (str === "") {
-      router.navigatePage("movies", true);
+      router.navigatePage("person", false);
       return;
     }
-    router.navigatePage("movies", { query: str }, true);
+    router.navigatePage("person", { query: str }, false);
 
   }
 
   _onNextClick(e) {
     let pageNum = this.pageNumber === undefined ? 1 : this.pageNumber;
     if (this.queryString === undefined) {
-      router.navigatePage("movies", { page: pageNum + 1 }, false);
+      router.navigatePage("person", { page: pageNum + 1 }, false);
       return;
     }
-    router.navigatePage("movies", { page: pageNum + 1, query: this.queryString }, false);
+    router.navigatePage("person", { page: pageNum + 1, query: this.queryString }, false);
     this.pageNumber = pageNum + 1;
   }
 
-  _getPopularMovies() {
+  _getPopularPerson(){
     if (this.queryString !== undefined) {
-      api("/search/movie", this.pageNumber)
-        .then(res => this.data = res);
+      api("/search/person", this.pageNumber)
+        .then(res => this._data = res.results);
       return;
     }
-    api("/movie/popular", this.pageNumber)
-      .then(res => this.data = res);
-
+    api("/person/popular", this.pageNumber)
+      .then(res => this._data = res.results)
   }
 
-  stateChanged(state) {
+  stateChanged(state){
     i18next.changeLanguage(app.selectors.getLanguage(state));
     this.pageNumber = router.selectors.currentPageNumber(state);
     this.queryString = router.selectors.currentQueryString(state);
-    this._getPopularMovies();
+    this.imageUrl = app.selectors.apiImageUrl(state);
+    this._getPopularPerson();
   }
 }
 
-window.customElements.define("app-movies", AppMovies);
+window.customElements.define("app-person", AppPerson);
