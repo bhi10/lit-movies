@@ -36,7 +36,7 @@ export class TestElement extends connect(store)(localize(i18next)(DwSurface)){
       }
 
       :host([selected]){
-        transform: scale(1.1);
+        transform: scale(1.12);
         box-shadow: var(--mdc-elevation--z8);
         color: #04BCD4;
         z-index: 999;
@@ -145,27 +145,45 @@ export class TestElement extends connect(store)(localize(i18next)(DwSurface)){
     this._length = 45;
     this._language = "Gujrati";
     this._recordingDate = new Date("1986-01-01");
-    this._status = "SCHEDULED";
+    this._status = "SCHEDUED";
     this._size = 700000;
     this._thumbUrl = "https://image.tmdb.org/t/p/w500/eD1C60oJXvA5uYVBx3k6lq2RMve.jpg";
+    this._downloadedSize = 0;
   }
 
   get _getContentTemplate(){
+    let percentage = Math.round(100*this._downloadedSize/this._size)
     return html`
       <div class="image">
         <img src=${this._thumbUrl}>
       </div>
       <div class="details">
         <div class="icon">
-          <test-progress progress=65></test-progress>
+          <test-progress progress=${percentage} ?selected=${this.selected}></test-progress>
         </div>
         <div class="title">
           <h2>${this._title}</h2>
           <h5>${this._length} min - ${this._language} - </h5>
-          <h5>${this._status === "SCHEDULED" ? "Download Queud " : "Downloading... "} ${this._size/1000} MB</h5>
+          <h5>${this._status === "SCHEDULED" 
+            ? `Download Queued ${this._size/1000} MB` 
+            : `Downloading... ${this._downloadedSize/1000}/${this._size/1000} MB`} </h5>
         </div>
       </div>
     `
+  }
+
+  firstUpdated(){
+    this._timeout()
+  }
+
+  _timeout(){
+    if(this._downloadedSize < this._size){
+      setTimeout(() => {
+        this._downloadedSize = this._downloadedSize + 7000;
+        
+        this._timeout();
+      }, 500)
+    }
   }
 
   _onClick(e){

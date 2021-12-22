@@ -22,7 +22,8 @@ export class TestPage extends connect(store)(localize(i18next)(LitElement)){
         display: flex;
         flex: 1;
         flex-wrap: wrap;
-        justify-content: start
+        justify-content: start;
+        padding: 16px;
       }
     `
   ]
