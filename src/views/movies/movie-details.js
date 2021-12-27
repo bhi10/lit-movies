@@ -18,6 +18,8 @@ import "./../components/my-loader";
 import "../components/dw-surface";
 import "./list-item";
 
+import moment from "moment/src/moment";
+
 export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) {
 
   static styles = [
@@ -143,10 +145,10 @@ export class MovieDetails extends connect(store)(localize(i18next)(LitElement)) 
 
   _getGenresView(){
 
-    let date = new Date(this._data.release_date);
+    let date = moment(this._data.release_date).format("Do MMM, YYYY");
     let genresString = this._data.genres.map( (e) => e.name);
     return html`<small>
-      ${date.toLocaleDateString("en-US")} - 
+      ${date} - 
       ${genresString.join(", ")} - 
       </small>
     `;

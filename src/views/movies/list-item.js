@@ -23,7 +23,7 @@ export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
         height: 100%;
         overflow: hidden;
         cursor: pointer;
-        transition: all 0.5s ease-in-out;
+        transition: transform 0.5s ease-in-out;
       }
 
       :host(:hover){

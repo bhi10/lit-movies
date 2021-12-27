@@ -14,6 +14,8 @@ import { localize } from '@dw/pwa-helpers';
 import * as app from "../../redux/app";
 import * as router from '../../redux/router';
 
+import moment from "moment/src/moment";
+
 //components
 import "@dreamworld/dw-icon-button";
 import "./test-progress";
@@ -144,50 +146,75 @@ export class TestElement extends connect(store)(localize(i18next)(DwSurface)){
     this._title = "Geeta A-12, SL-2, P-2";
     this._length = 45;
     this._language = "Gujrati";
-    this._recordingDate = new Date("1986-01-01");
-    this._status = "SCHEDUED";
+    this._recordingDate = "1986-01-01";
+    this._status = "SCHEDULED";
     this._size = 700000;
     this._thumbUrl = "https://image.tmdb.org/t/p/w500/eD1C60oJXvA5uYVBx3k6lq2RMve.jpg";
     this._downloadedSize = 0;
   }
 
   get _getContentTemplate(){
-    let percentage = Math.round(100*this._downloadedSize/this._size)
+    let percentage = Math.round(100*this._downloadedSize/this._size);
+    
     return html`
       <div class="image">
         <img src=${this._thumbUrl}>
       </div>
       <div class="details">
         <div class="icon">
-          <test-progress progress=${percentage} ?selected=${this.selected}></test-progress>
+          <test-progress @click=${this._onIconClick} progress=${percentage} ?selected=${this.selected} status=${this._status}></test-progress>
         </div>
         <div class="title">
           <h2>${this._title}</h2>
-          <h5>${this._length} min - ${this._language} - </h5>
-          <h5>${this._status === "SCHEDULED" 
-            ? `Download Queued ${this._size/1000} MB` 
-            : `Downloading... ${this._downloadedSize/1000}/${this._size/1000} MB`} </h5>
+          <h5>${this._length} min - ${this._language} - ${moment(this._recordingDate).format("YYYY")}</h5>
+          <h5>${this._statusView()}</h5>
         </div>
       </div>
     `
   }
 
-  firstUpdated(){
-    this._timeout()
+  _statusView(){
+
+    if(this._status === "SCHEDULED"){
+      return html`Download Queued ${this._size/1000} MB`
+    }
+
+    if(this._status === "DOWNLOADING"){
+      return html`Downloading... ${this._downloadedSize/1000}/${this._size/1000} MB`
+    }
+
+    if(this._status === "READY"){
+      return html`Ready ${this._size/1000} MB`
+    }
   }
 
   _timeout(){
     if(this._downloadedSize < this._size){
       setTimeout(() => {
-        this._downloadedSize = this._downloadedSize + 7000;
+        this._downloadedSize = this._downloadedSize + 14000;
         
         this._timeout();
       }, 500)
+      return;
     }
+    this._status = "READY";
   }
 
   _onClick(e){
+    if(this.selected){
+      this.selected = false;
+      return;
+    }
     this.selected = true;
+    
+  }
+
+  _onIconClick(e){
+    if(this._status === "SCHEDULED"){
+      this._status = "DOWNLOADING";
+      this._timeout();
+      
+    }
   }
 
   stateChanged(state){

@@ -101,10 +101,10 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
 
   searchMovies(str) {
     if (str === "") {
-      router.navigatePage("movies", true);
+      router.navigatePage("movies", false);
       return;
     }
-    router.navigatePage("movies", { query: str }, true);
+    router.navigatePage("movies", { query: str }, false);
 
   }
 
