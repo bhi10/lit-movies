@@ -19,7 +19,7 @@ export default {
     }),
     summary(),
     copy({
-      patterns: ['src/img/**/*']
+      patterns: ['src/img/**/*', 'src/locales/**/*']
     })
   ],
   output: {

@@ -14,6 +14,8 @@ import "./list-item";
 //selectors
 import * as app from "../../redux/app";
 
+import "@lit-labs/virtualizer";
+
 export class ListContainer extends connect(store)(localize(i18next)(LitElement)) {
   static styles = [
     css`
@@ -64,8 +66,25 @@ export class ListContainer extends connect(store)(localize(i18next)(LitElement))
   }
 
   render() {
+    console.log(this.dataSet);
     return html`
       <div class="main">
+
+        <!-- <lit-virtualizer
+          .scrollTarget=${window}
+          .items=${this.dataSet}
+          .renderItem=${(row) => {
+            let imageUrl = "src/img/not-found/not-available.png";
+            if(row.poster_path !== null){
+              imageUrl = "".concat(this.imageUrl, "/w500", row.poster_path);
+            }
+            return html`
+              <div>
+                ${console.log(row)}
+              </div>`
+          }}>
+
+        </lit-virtualizer> -->
         ${this.dataSet.map(row => {
           let imageUrl = "src/img/not-found/not-available.png";
           if(row.poster_path !== null){

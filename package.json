@@ -6,7 +6,7 @@
   "module": "index.html",
   "scripts": {
     "start": "web-dev-server",
-    "build": "rollup -c",
+    "build": "rollup -c rollup.config.js",
     "start:build": "web-dev-server --root-dir dist --app-index index.html"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "@dreamworld/pwa-helpers": "^1.11.1",
     "@dreamworld/router": "^1.0.0",
     "@dw/i18next-esm": "^15.0.9",
+    "@lit-labs/virtualizer": "^0.6.0",
     "i18next-xhr-backend": "^3.2.2",
     "lit": "^2.0.0",
     "lodash-es": "^4.17.21",
