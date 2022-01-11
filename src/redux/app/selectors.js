@@ -65,6 +65,19 @@ export const language = createSelector(
   }
 );
 
+export const getScrollTop = (state) => {
+  return state.app.scrollTop;
+}
+
+export const scrollTop = createSelector(
+  getScrollTop,
+  (scrollTop) => {
+    return {
+      scrollTop
+    }
+  }
+)
+
 export const apiBaseUrl = (state) => {
   return state.app.config.apiBaseUrl
 };

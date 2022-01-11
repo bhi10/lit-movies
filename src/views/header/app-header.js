@@ -26,6 +26,13 @@ export class AppHeader extends connect(store)(localize(i18next)(DwSurface)){
     DwSurface.styles,
     css `
 
+      :host{
+        display: block;
+        position: fixed;
+        height: 56px;
+        z-index: 5;
+      }
+
       :host([layout='mobile']){
         border-radius: 0px;
       }
@@ -118,6 +125,7 @@ export class AppHeader extends connect(store)(localize(i18next)(DwSurface)){
   stateChanged(state){
     this.page = router.selectors.currentModule(state);
     this.layout = app.selectors.getLayout(state);
+    this.elevation = app.selectors.getScrollTop(state) ? 0 : 2;
     i18next.changeLanguage(app.selectors.getLanguage(state));
   }
 }

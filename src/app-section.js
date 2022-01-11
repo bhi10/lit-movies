@@ -3,13 +3,11 @@ import { LitElement, html, css } from "lit";
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
 import { store } from './redux/store';
+import * as app from "./redux/app";
+import * as router from './redux/router';
 
 //Views
 import './views/header/app-header';
-
-import * as app from "./redux/app";
-
-import * as router from './redux/router';
 
 export class AppSection extends connect(store)(LitElement) {
 
@@ -52,6 +50,7 @@ export class AppSection extends connect(store)(LitElement) {
 
     .body{
       display: flex;
+      margin-top: 56px;
     }
   `;
 
@@ -88,7 +87,7 @@ export class AppSection extends connect(store)(LitElement) {
     return html`
       ${this._getBackdropVew()}
       <div class="section" ?opened=${this.drawerOpened}>
-        <app-header elevation=${this.layout==="mobile" ? 1 : 0}></app-header>
+        <app-header></app-header>
         <div class="body">
           ${this._getPageView()}
         </div>

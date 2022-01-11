@@ -1,4 +1,4 @@
-import { CHANGE_THEME, CHANGE_LANGUAGE } from "./actions";
+import { CHANGE_THEME, CHANGE_LANGUAGE, CHANGE_SCROLL } from "./actions";
 
 export const LAYOUT_CHANGE_MEDIA_QUERY = "only screen and (max-width: 480px)";
 //get initial layout
@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   drawerOpened: layout === "mobile" ? false : true,
   layout: layout,
   language: 'en',
+  scrollTop: true
 };
 
 function getConfig(config) {
@@ -41,6 +42,8 @@ export default function reducer(state = INITIAL_STATE, action) {
       return { ...state, layout: action.value.layout, drawerOpened: action.value.drawerOpened }
     case CHANGE_LANGUAGE:
       return { ...state, language: action.value }
+    case CHANGE_SCROLL:
+      return { ...state, scrollTop: action.value }
   }
   return state;
 }

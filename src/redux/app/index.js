@@ -30,5 +30,16 @@ media.addListener(() => {
   }
 });
 
+window.addEventListener("scroll", () => {
+
+  if(window.scrollY !== 0){
+    if(store.getState().app.scrollTop){
+      store.dispatch(_actions.changeScroll(false));
+    }
+  } else{
+    store.dispatch(_actions.changeScroll(true))
+  }
+})
+
 export const selectors = _selectors;
 export const actions = _actions;

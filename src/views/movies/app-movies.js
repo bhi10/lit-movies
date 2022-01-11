@@ -25,6 +25,7 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
       :host{
         display: flex;
         flex: 1;
+        margin-top: 28px;
       }
 
       h2{
