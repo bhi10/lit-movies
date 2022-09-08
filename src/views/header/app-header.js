@@ -8,9 +8,8 @@ import { store } from "../../redux/store";
 import i18next from "@dw/i18next-esm";
 import { localize } from "@dw/pwa-helpers";
 
-//Dw-Components
-import "@dreamworld/dw-switch";
-import "@dreamworld/dw-icon-button";
+// Material Components
+import "@material/mwc-icon-button";
 
 //Custom Components
 import { DwSurface } from "../components/dw-surface";
@@ -59,7 +58,7 @@ export class AppHeader extends connect(store)(localize(i18next)(DwSurface)) {
         align-items: center;
       }
 
-      dw-icon-button {
+      mwc-icon-button {
         width: max-content;
         height: max-content;
       }
@@ -96,11 +95,11 @@ export class AppHeader extends connect(store)(localize(i18next)(DwSurface)) {
     return html`
       <div class="header">
         <div class="title">
-          <dw-icon-button
+          <mwc-icon-button
             id="btn-menu"
             @click="${this._onDrawerToggel}"
             icon="menu"
-          ></dw-icon-button>
+          ></mwc-icon-button>
           <h4>${this._getPageName()}</h4>
         </div>
         ${this._getProfileView()}

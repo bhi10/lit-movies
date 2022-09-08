@@ -2,22 +2,21 @@ import { LitElement, html, css } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
-import { store } from './redux/store';
+import { store } from "./redux/store";
 import * as app from "./redux/app";
-import * as router from './redux/router';
+import * as router from "./redux/router";
 
 //Views
-import './views/header/app-header';
+import "./views/header/app-header";
 
 export class AppSection extends connect(store)(LitElement) {
-
   static styles = css`
-    :host{
+    :host {
       flex: 1;
       display: flex;
     }
 
-    .backdrop{
+    .backdrop {
       flex: 1 1 0%;
       background-color: rgba(0, 0, 0, 0);
       z-index: -9;
@@ -27,12 +26,12 @@ export class AppSection extends connect(store)(LitElement) {
       transition: background-color var(--drawer-open-time);
     }
 
-    .backdrop[opened]{
+    .backdrop[opened] {
       background-color: rgba(0, 0, 0, 0.8);
       z-index: 3;
     }
 
-    .section{
+    .section {
       flex: 1;
       position: relative;
       display: flex;
@@ -40,15 +39,15 @@ export class AppSection extends connect(store)(LitElement) {
       transition: margin-left var(--drawer-open-time);
     }
 
-    :host([layout='desktop']) .section{
+    :host([layout="desktop"]) .section {
       padding: 4px;
     }
 
-    :host([layout='desktop']) .section[opened]{
+    :host([layout="desktop"]) .section[opened] {
       margin-left: calc(var(--drawer-width) + 16px);
     }
 
-    .body{
+    .body {
       display: flex;
       margin-top: 56px;
     }
@@ -60,15 +59,15 @@ export class AppSection extends connect(store)(LitElement) {
       reflect: true,
     },
     drawerOpened: {
-      type: String
+      type: String,
     },
     _page: {
-      type: String
+      type: String,
     },
     _id: {
-      type: Number
+      type: Number,
     },
-  }
+  };
 
   constructor() {
     super();
@@ -79,7 +78,6 @@ export class AppSection extends connect(store)(LitElement) {
   }
 
   _getInitView() {
-
     return this._getInitView();
   }
 
@@ -88,68 +86,69 @@ export class AppSection extends connect(store)(LitElement) {
       ${this._getBackdropVew()}
       <div class="section" ?opened=${this.drawerOpened}>
         <app-header></app-header>
-        <div class="body">
-          ${this._getPageView()}
-        </div>
+        <div class="body">${this._getPageView()}</div>
       </div>
     `;
   }
 
   _getBackdropVew() {
-    return this.layout === 'mobile'
-      ? html`<div class="backdrop" @click="${this._onDrawerToggel}" ?opened=${this.drawerOpened}></div>`
+    return this.layout === "mobile"
+      ? html`<div
+          class="backdrop"
+          @click="${this._onDrawerToggel}"
+          ?opened=${this.drawerOpened}
+        ></div>`
       : html``;
   }
 
   _getPageView() {
-
     if (this._page === "root" || this._page === "home") {
-      import('./views//home/app-home');
-      return html`<app-home></app-home>`
+      import("./views//home/app-home");
+      return html`<app-home></app-home>`;
     }
 
     if (this._page === "shows") {
-      import('./views/tv-shows/tv-shows.js');
+      import("./views/tv-shows/tv-shows.js");
       return html`<tv-shows></tv-shows>`;
     }
 
     if (this._page === "movies" && this._id === undefined) {
-      import('./views/movies/app-movies');
+      import("./views/movies/app-movies");
       return html`<app-movies></app-movies>`;
     }
 
     if (this._page === "movies" && this._id !== undefined) {
-      import('./views/movies/movie-details');
+      import("./views/movies/movie-details");
       return html`<movie-details></movie-details>`;
     }
 
     if (this._page === "person" && this._id === undefined) {
-      import('./views/person/app-person');
+      import("./views/person/app-person");
       return html`<app-person></app-person>`;
     }
 
     if (this._page === "person" && this._id !== undefined) {
-      import('./views/person/person-view');
+      import("./views/person/person-view");
       return html`<person-view></person-view>`;
     }
 
     if (this._page === "test") {
-      import('./views/test/test-page');
+      import("./views/test/test-page");
       return html`<test-page></test-page>`;
     }
 
     if (this._page === "not-found") {
-      import('./views/not-found');
-      return html`<not-found></not-found>`
+      import("./views/not-found");
+      return html`<not-found></not-found>`;
     }
 
-    import('./views/not-found');
-    return html`<not-found></not-found>`
+    import("./views/not-found");
+    return html`<not-found></not-found>`;
   }
 
   _onDrawerToggel() {
     store.dispatch({
-      type: 'drawerStatusChange',
+      type: "drawerStatusChange",
       drawerOpened: this.drawerOpened ? false : true,
     });
   }

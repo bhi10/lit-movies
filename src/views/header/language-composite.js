@@ -2,13 +2,13 @@ import { html, css } from "lit-element";
 import { DwPopoverDialog } from "@dreamworld/dw-dialog/dw-popover-dialog.js";
 
 //dw-components
-import '@dreamworld/dw-list-item/dw-list-item.js';
+import "@dreamworld/dw-list-item/dw-list-item.js";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin";
-import {store} from "../../redux/store";
+import { store } from "../../redux/store";
 
-import * as app from '../../redux/app';
+import * as app from "../../redux/app";
 
 class LanguageComposite extends connect(store)(DwPopoverDialog) {
   constructor() {
@@ -19,29 +19,42 @@ class LanguageComposite extends connect(store)(DwPopoverDialog) {
     return {
       _language: {
         type: String,
-      }
-    }
+      },
+    };
   }
 
   static get styles() {
-    return [
-      super.styles,
-      css`
-
-      `
-    ];
+    return [super.styles, css``];
   }
 
   get _contentTemplate() {
     return html`
-      <dw-list-item @click=${this._onLanguageChange} name="en" title1="English" ?selected=${this._isSelected('en')}
-        hasTrailingIcon trailingIcon=${this._isSelected('en') ? 'done' : '' }>
+      <dw-list-item
+        @click=${this._onLanguageChange}
+        name="en"
+        title1="English"
+        ?selected=${this._isSelected("en")}
+        ?hasTrailingIcon=${this._isSelected("en")}
+        trailingIcon="done"
+      >
       </dw-list-item>
-      <dw-list-item @click=${this._onLanguageChange} name="hi" title1="हिन्दी" ?selected=${this._isSelected('hi')}
-        hasTrailingIcon trailingIcon=${this._isSelected('hi') ? 'done' : '' }>
+      <dw-list-item
+        @click=${this._onLanguageChange}
+        name="hi"
+        title1="हिन्दी"
+        ?selected=${this._isSelected("hi")}
+        ?hasTrailingIcon=${this._isSelected("hi")}
+        trailingIcon="done"
+      >
       </dw-list-item>
-      <dw-list-item @click=${this._onLanguageChange} name="gu" title1="ગુજરાતી" ?selected=${this._isSelected('gu')}
-        hasTrailingIcon trailingIcon=${this._isSelected('gu') ? 'done' : '' }>
+      <dw-list-item
+        @click=${this._onLanguageChange}
+        name="gu"
+        title1="ગુજરાતી"
+        ?selected=${this._isSelected("gu")}
+        ?hasTrailingIcon=${this._isSelected("gu")}
+        trailingIcon="done"
+      >
       </dw-list-item>
     `;
   }

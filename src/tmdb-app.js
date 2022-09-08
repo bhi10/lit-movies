@@ -1,20 +1,20 @@
 import { LitElement, html, css } from "lit";
 
 // Material Theme
-import { ThemeStyle } from '@dreamworld/material-styles/theme.js';
+import { TmdbThemeStyle } from "./views/components/theme";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
-import { store } from './redux/store';
+import { store } from "./redux/store";
 
 //Views
-import './views/drawer/app-drawer';
-import './app-section';
+import "./views/drawer/app-drawer";
+import "./app-section";
 
 //i18next
-import i18next from '@dw/i18next-esm';
-import Backend from 'i18next-xhr-backend';
-import { localize } from '@dw/pwa-helpers';
+import i18next from "@dw/i18next-esm";
+import Backend from "i18next-xhr-backend";
+import { localize } from "@dw/pwa-helpers";
 
 //DreamWorld Hammerjs
 import Hammer from "@dreamworld/hammerjs/hammer.js";
@@ -22,16 +22,15 @@ import Hammer from "@dreamworld/hammerjs/hammer.js";
 import * as app from "./redux/app";
 
 i18next.use(Backend).init({
-  fallbackLng: 'en',
-  ns: ['app'],
-  defaultNS: 'app',
+  fallbackLng: "en",
+  ns: ["app"],
+  defaultNS: "app",
   backend: {
-    loadPath: './src/locales/{{lng}}/{{ns}}.json'
-  }
+    loadPath: "./src/locales/{{lng}}/{{ns}}.json",
+  },
 });
 
 export class TmdbApp extends connect(store)(localize(i18next)(LitElement)) {
-
   static properties = {
     theme: {
       type: String,
@@ -40,30 +39,28 @@ export class TmdbApp extends connect(store)(localize(i18next)(LitElement)) {
     dark: {
       type: Boolean,
       reflect: true,
-      attribute: 'dark-theme',
+      attribute: "dark-theme",
     },
-  }
+  };
 
   constructor() {
     super();
     this.theme;
     this.dark;
-    this.i18nextNameSpace = ['app'];
+    this.i18nextNameSpace = ["app"];
   }
 
   static styles = [
-    ThemeStyle,
+    TmdbThemeStyle,
     css`
-
-      :host{
+      :host {
         color: var(--mdc-theme-text-primary);
         background-color: var(--mdc-theme-background);
         display: flex;
         flex: 1;
       }
-    `
+    `,
   ];
-
 
   render() {
     return this._initView();
@@ -71,9 +68,9 @@ export class TmdbApp extends connect(store)(localize(i18next)(LitElement)) {
 
   _initView() {
     return html`
-      <app-drawer elevation=4></app-drawer>
+      <app-drawer elevation="4"></app-drawer>
       <app-section></app-section>
-      `
+    `;
   }
 
   firstUpdated() {
@@ -83,19 +80,27 @@ export class TmdbApp extends connect(store)(localize(i18next)(LitElement)) {
 
   get _getSwipableDrawer() {
     let hammerInstance = new Hammer(document.body);
-    hammerInstance.get('swipe').set({ enable: true });
+    hammerInstance.get("swipe").set({ enable: true });
 
-    hammerInstance.on('swipe', function (e) {
-      if (e.velocity > 0 && store.getState().app.drawerOpened === false && store.getState().app.layout === 'mobile') {
+    hammerInstance.on("swipe", function (e) {
+      if (
+        e.velocity > 0 &&
+        store.getState().app.drawerOpened === false &&
+        store.getState().app.layout === "mobile"
+      ) {
         store.dispatch({
-          type: 'drawerStatusChange',
+          type: "drawerStatusChange",
           drawerOpened: true,
         });
       }
 
-      if (e.velocity < 0 && store.getState().app.drawerOpened && store.getState().app.layout === 'mobile') {
+      if (
+        e.velocity < 0 &&
+        store.getState().app.drawerOpened &&
+        store.getState().app.layout === "mobile"
+      ) {
         store.dispatch({
-          type: 'drawerStatusChange',
+          type: "drawerStatusChange",
           drawerOpened: false,
         });
       }
@@ -104,9 +109,9 @@ export class TmdbApp extends connect(store)(localize(i18next)(LitElement)) {
 
   stateChanged(state) {
     this.theme = app.selectors.getCurrentTheme(state);
-    this.dark = this.theme === 'dark' ? true : false;
+    this.dark = this.theme === "dark" ? true : false;
     i18next.changeLanguage(app.selectors.getLanguage(state));
   }
 }
 
-window.customElements.define('tmdb-app', TmdbApp);
+window.customElements.define("tmdb-app", TmdbApp);

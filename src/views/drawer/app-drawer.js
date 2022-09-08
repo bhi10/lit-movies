@@ -4,26 +4,24 @@ import { LitElement, html, css } from "lit";
 import { connect } from "pwa-helpers/connect-mixin";
 import { store } from "../../redux/store";
 
-import * as app from '../../redux/app';
-import * as router from '../../redux/router';
+import * as app from "../../redux/app";
+import * as router from "../../redux/router";
 
 //Dw Components
-import '@dreamworld/dw-list-item/dw-list-item';
-import '@dreamworld/dw-icon-button';
+import "@dreamworld/dw-list-item/dw-list-item";
 
 //i18next
-import i18next from '@dw/i18next-esm';
-import { localize } from '@dw/pwa-helpers';
+import i18next from "@dw/i18next-esm";
+import { localize } from "@dw/pwa-helpers";
 
 //Custom Components
 import { DwSurface } from "../components/dw-surface";
 
 export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)) {
-
   static styles = [
     DwSurface.styles,
     css`
-      :host{
+      :host {
         position: fixed;
         z-index: 4;
         overflow-y: auto;
@@ -36,39 +34,30 @@ export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)) {
         transition: left var(--drawer-open-time);
       }
 
-      :host([opened]){
-        left:0;
+      :host([opened]) {
+        left: 0;
       }
 
-      :host([layout='mobile']){
+      :host([layout="mobile"]) {
         padding: 0;
         margin: 0;
         height: 100vh;
         border-radius: 0;
       }
 
-      .header{
+      .header {
         display: flex;
         justify-content: end;
         align-items: center;
       }
-
-      dw-switch{
-        margin: 8px;
-      }
-
-      dw-icon-button{
-        width: max-content;
-        height: max-content;
-      }
-    `
-  ]
+    `,
+  ];
 
   static properties = {
     opened: {
       type: Boolean,
       reflect: true,
-      attribute: 'opened',
+      attribute: "opened",
     },
     _page: {
       type: String,
@@ -79,26 +68,52 @@ export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)) {
     layout: {
       type: String,
       reflect: true,
-    }
-  }
+    },
+  };
 
   constructor() {
     super();
     this.opened = true;
     this._page;
-    this.i18nextNameSpace = ['app'];
+    this.i18nextNameSpace = ["app"];
   }
 
   get _getContentTemplate() {
     return html`
       <div class="body">
-        <dw-list-item lable="home" leadingIcon="home" title1='${i18next.t("home")}' @click="${this._onPageChange}" ?selected=${this._isSelected('Home')}></dw-list-item>
-        <dw-list-item lable="movies" leadingIcon="movie" title1='${i18next.t("movies")}' @click="${this._onPageChange}" ?selected=${this._isSelected('Movies')}></dw-list-item>
-        <dw-list-item lable="shows" leadingIcon="live_tv" title1='${i18next.t("shows")}' @click="${this._onPageChange}" ?selected=${this._isSelected('Shows')}></dw-list-item>
-        <dw-list-item lable="person" leadingIcon="person" title1='${i18next.t("person")}' @click="${this._onPageChange}" ?selected=${this._isSelected('Person')}></dw-list-item>
-        <dw-list-item lable="test" leadingIcon="settings" title1='${i18next.t("test")}' @click="${this._onPageChange}" ?selected=${this._isSelected('Test')}></dw-list-item>
+        <dw-list-item
+          lable="home"
+          leadingIcon="home"
+          hasLeadingIcon
+          title1="${i18next.t("home")}"
+          @click="${this._onPageChange}"
+          ?selected=${this._isSelected("Home")}
+        ></dw-list-item>
+        <dw-list-item
+          lable="movies"
+          leadingIcon="movie"
+          hasLeadingIcon
+          title1="${i18next.t("movies")}"
+          @click="${this._onPageChange}"
+          ?selected=${this._isSelected("Movies")}
+        ></dw-list-item>
+        <dw-list-item
+          lable="shows"
+          leadingIcon="live_tv"
+          hasLeadingIcon
+          title1="${i18next.t("shows")}"
+          @click="${this._onPageChange}"
+          ?selected=${this._isSelected("Shows")}
+        ></dw-list-item>
+        <dw-list-item
+          lable="person"
+          leadingIcon="person"
+          hasLeadingIcon
+          title1="${i18next.t("person")}"
+          @click="${this._onPageChange}"
+          ?selected=${this._isSelected("Person")}
+        ></dw-list-item>
       </div>
-      
     `;
   }
 
@@ -106,7 +121,7 @@ export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)) {
     if (this._page !== e.target.getAttribute("lable")) {
       router.navigatePage(e.target.getAttribute("lable"), true);
 
-      if (this.layout === 'mobile') {
+      if (this.layout === "mobile") {
         this._onDrawerClose();
       }
     }
@@ -121,7 +136,7 @@ export class AppDrawer extends connect(store)(localize(i18next)(DwSurface)) {
 
   _onDrawerClose() {
     store.dispatch({
-      type: 'drawerStatusChange',
+      type: "drawerStatusChange",
       drawerOpened: false,
     });
   }

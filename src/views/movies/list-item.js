@@ -7,18 +7,18 @@ import { connect } from "pwa-helpers/connect-mixin.js";
 import { store } from "../../redux/store";
 
 //i18next
-import i18next from '@dw/i18next-esm';
-import { localize } from '@dw/pwa-helpers';
+import i18next from "@dw/i18next-esm";
+import { localize } from "@dw/pwa-helpers";
 
 //selectors
 import * as app from "../../redux/app";
-import * as router from '../../redux/router';
+import * as router from "../../redux/router";
 
 export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
   static styles = [
     DwSurface.styles,
     css`
-      :host{
+      :host {
         width: min-content;
         height: 100%;
         overflow: hidden;
@@ -26,23 +26,23 @@ export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
         transition: transform 0.5s ease-in-out;
       }
 
-      :host(:hover){
+      :host(:hover) {
         transform: scale(1.05);
         box-shadow: var(--mdc-elevation--z8);
         z-index: 1;
       }
 
-      ::slotted(img){
+      ::slotted(img) {
         width: auto;
         height: 256px;
       }
 
-      .details{
+      .details {
         padding: 16px 8px 16px;
         text-align: center;
       }
 
-      ::slotted(h2){
+      ::slotted(h2) {
         font-size: 1rem;
         margin: 0;
         width: 100%;
@@ -50,7 +50,7 @@ export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
         font-weight: 700;
       }
 
-      ::slotted(h3){
+      ::slotted(h3) {
         font-size: 0.75rem;
         width: 100%;
         overflow-wrap: break-word;
@@ -58,23 +58,23 @@ export class ListItem extends connect(store)(localize(i18next)(DwSurface)) {
         margin: 0;
         margin-top: 8px;
       }
-    `
+    `,
   ];
 
   static properties = {
     id: {
       type: Number,
-      reflect: true
+      reflect: true,
     },
     redirect: {
-      type: String
-    }
-  }
+      type: String,
+    },
+  };
 
   constructor() {
     super();
     this.elevation = 2;
-    this.addEventListener('click', this.handleClick);
+    this.addEventListener("click", this.handleClick);
   }
 
   get _getContentTemplate() {
