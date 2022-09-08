@@ -1,10 +1,8 @@
 import { LitElement, html, css } from "lit";
 
 export class MyLoader extends LitElement {
-
   static styles = css`
-
-    :host{
+    :host {
       flex: 1;
       display: flex;
       justify-content: center;
@@ -94,7 +92,6 @@ export class MyLoader extends LitElement {
         transform: rotate(360deg);
       }
     }
-
   `;
 
   render() {

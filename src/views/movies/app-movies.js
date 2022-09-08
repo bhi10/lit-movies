@@ -9,54 +9,53 @@ import * as router from "../../redux/router";
 import api from "../../redux/api";
 
 //i18next
-import i18next from '@dw/i18next-esm';
-import { localize } from '@dw/pwa-helpers';
+import i18next from "@dw/i18next-esm";
+import { localize } from "@dw/pwa-helpers";
 
-//custom element
+// Material component element
 import "../components/my-loader";
 import "./list-container";
-import "@dreamworld/dw-button";
-import "@dreamworld/dw-input";
+import "@material/mwc-textfield";
+import "@material/mwc-button";
 
 export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
-
   static styles = [
     css`
-      :host{
+      :host {
         display: flex;
         flex: 1;
-        margin-top: 28px;
+        margin-top: 8px;
       }
 
-      h2{
-        margin:0;
+      h2 {
+        margin: 0;
         margin-bottom: 8px;
       }
 
-      .main{
+      .main {
         flex: 1;
       }
 
-      .filter{
+      .filter {
         display: flex;
         flex: 1;
         justify-content: space-between;
         align-items: center;
       }
-    `
-  ]
+    `,
+  ];
 
   static properties = {
     data: {
-      type: Object
+      type: Object,
     },
     pageNumber: {
-      type: Number
+      type: Number,
     },
     queryString: {
-      type: String
-    }
-  }
+      type: String,
+    },
+  };
 
   constructor() {
     super();
@@ -75,21 +74,30 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
       return html`
         <div class="main">
           <div class="filter">
-            <dw-input @keyup=${this._onSearch} value=${this.queryString} placeholder="Search"></dw-input>
-            <dw-button @click=${this._onNextClick} icon="navigate_next" trailingIcon raised>Next</dw-button>
+            <mwc-textfield
+              @keyup=${this._onSearch}
+              value=${this.queryString}
+              outlined
+              placeholder="Search"
+            ></mwc-textfield>
+            <mwc-button
+              label="Next"
+              @click=${this._onNextClick}
+              icon="navigate_next"
+              trailingIcon
+              raised
+            ></mwc-button>
           </div>
           <h2>Popular Movies</h2>
           <list-container .dataSet=${this.data.results}></list-container>
         </div>
-      `
+      `;
     }
 
     return html`<my-loader></my-loader>`;
-
   }
 
   _onSearch(e) {
-
     let text = e.target.value;
 
     clearTimeout(this.timer);
@@ -97,7 +105,7 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
     this.timer = setTimeout(() => {
       // this.queryString = text;
       this.searchMovies(text);
-    }, this.waitTime)
+    }, this.waitTime);
   }
 
   searchMovies(str) {
@@ -106,7 +114,6 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
       return;
     }
     router.navigatePage("movies", { query: str }, false);
-
   }
 
   _onNextClick(e) {
@@ -115,19 +122,20 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
       router.navigatePage("movies", { page: pageNum + 1 }, false);
       return;
     }
-    router.navigatePage("movies", { page: pageNum + 1, query: this.queryString }, false);
+    router.navigatePage(
+      "movies",
+      { page: pageNum + 1, query: this.queryString },
+      false
+    );
     this.pageNumber = pageNum + 1;
   }
 
   _getPopularMovies() {
     if (this.queryString !== undefined) {
-      api("/search/movie", this.pageNumber)
-        .then(res => this.data = res);
+      api("/search/movie", this.pageNumber).then((res) => (this.data = res));
       return;
     }
-    api("/movie/popular", this.pageNumber)
-      .then(res => this.data = res);
-
+    api("/movie/popular", this.pageNumber).then((res) => (this.data = res));
   }
 
   stateChanged(state) {

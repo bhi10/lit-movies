@@ -5,9 +5,8 @@ import { connect } from "pwa-helpers/connect-mixin.js";
 import {store} from '../redux/store';
 
 //Dw Components
-import '@dreamworld/dw-button';
+import '@material/mwc-button';
 
-import * as app from '../redux/app';
 import * as router from '../redux/router';
 
 export class NotFound extends connect(store)(LitElement){
@@ -44,7 +43,7 @@ export class NotFound extends connect(store)(LitElement){
     return html`
       <img src="src/img/not-found/page-not-found.png">
       <h3>Page Not Found</h3>
-      <dw-button label="Go Home" raised @click="${this._goHome}"></dw-button>
+      <mwc-button label="Go Home" raised @click="${this._goHome}"></mwc-button>
       `;
   }
 

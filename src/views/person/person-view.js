@@ -5,11 +5,11 @@ import { connect } from "pwa-helpers/connect-mixin.js";
 import { store } from "../../redux/store";
 
 //i18next
-import i18next from '@dw/i18next-esm';
-import { localize } from '@dw/pwa-helpers';
+import i18next from "@dw/i18next-esm";
+import { localize } from "@dw/pwa-helpers";
 
-import * as router from './../../redux/router';
-import * as app from './../../redux/app';
+import * as router from "./../../redux/router";
+import * as app from "./../../redux/app";
 
 import api from "../../redux/api";
 
@@ -19,23 +19,22 @@ import "../components/dw-surface";
 import "../movies/list-item";
 
 export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
-
   static styles = [
     css`
-      :host{
+      :host {
         flex: 1;
       }
 
-      :host([layout="mobile"]) .header{
+      :host([layout="mobile"]) .header {
         flex-direction: column;
       }
 
-      :host([layout="mobile"]) .header .detail{
+      :host([layout="mobile"]) .header .detail {
         padding-left: 0;
         padding-top: 16px;
       }
 
-      .header{
+      .header {
         display: flex;
         flex: 1;
         background-size: cover;
@@ -43,42 +42,42 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
         padding: 20px;
       }
 
-      .header .detail{
+      .header .detail {
         padding-left: 16px;
       }
 
-      .header h2{
+      .header h2 {
         font-weight: 700;
         margin: 0;
       }
 
-      .header img{
+      .header img {
         width: 320px;
         height: auto;
         border-radius: 8px;
         align-self: center;
       }
 
-      h4{
+      h4 {
         margin: 8px 0px;
       }
 
-      :host([layout='mobile']) .main{
+      :host([layout="mobile"]) .main {
         justify-content: center;
       }
 
-      .main{
+      .main {
         flex: 1;
         display: flex;
         flex-wrap: wrap;
         width: 100%;
       }
 
-      .main div{
+      .main div {
         margin-right: 8px;
         margin-bottom: 8px;
       }
-    `
+    `,
   ];
 
   static properties = {
@@ -86,17 +85,17 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
     _data: { type: Object },
     layout: {
       type: String,
-      reflect: true
+      reflect: true,
     },
     _credits: {
-      type: Object
-    }
-  }
+      type: Object,
+    },
+  };
 
   constructor() {
     super();
     this.imageUrl;
-    this.addEventListener('click', this.handleClick);
+    this.addEventListener("click", this.handleClick);
   }
 
   render() {
@@ -108,14 +107,8 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
   }
 
   _getInitView() {
-
     if (this._data !== undefined) {
-      
-
-      return html`
-        ${this._headerview()}
-        ${this._getBodyView()}
-      `;
+      return html` ${this._headerview()} ${this._getBodyView()} `;
     }
     return html`<my-loader></my-loader>`;
   }
@@ -125,12 +118,10 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
 
     return html`
       <div class="header">
-        <img src=${imageUrl}>
+        <img src=${imageUrl} />
         <div class="detail">
-          <h2>${this._data.name} </h2>
+          <h2>${this._data.name}</h2>
 
-          
-        
           <div class="overview">
             <h4>Overview</h4>
             <p>${this._data.overview}</p>
@@ -140,46 +131,38 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
     `;
   }
 
-  _getGenresView(){
-
+  _getGenresView() {
     let date = new Date(this._data.release_date);
-    let genresString = this._data.genres.map( (e) => e.name);
+    let genresString = this._data.genres.map((e) => e.name);
     return html`<small>
-      ${date.toLocaleDateString("en-US")} - 
-      ${genresString.join(", ")} - 
-      </small>
-    `;
+      ${date.toLocaleDateString("en-US")} - ${genresString.join(", ")} -
+    </small> `;
   }
 
-  _getBodyView(){
-
-    return html`
-      <div class="body">
-        ${this._getCastView()}
-      </div>  
-    `;
+  _getBodyView() {
+    return html` <div class="body">${this._getCastView()}</div> `;
   }
 
-  _getCastView(){
-    if(this._credits !== undefined){
+  _getCastView() {
+    if (this._credits !== undefined) {
       return html`
         <h4>Known for</h4>
         <div class="main">
-          ${this._credits.cast.map(row => {
-            
+          ${this._credits.cast.map((row) => {
             let mImageUrl = "src/img/not-found/not-available.png";
-            if(row.poster_path !== null){
+            if (row.poster_path !== null) {
               mImageUrl = "".concat(this.imageUrl, "/w500", row.poster_path);
-            }            
+            }
 
-            return html`
-            <div>
+            return html` <div>
               <list-item .id=${row.id} redirect="movies">
-                <img slot="image" src=${mImageUrl}>
+                <img slot="image" src=${mImageUrl} />
                 <h2 slot="title1">${row.title}</h2>
-                ${row.character !== null && row.character !== "" ? html`<h3 slot="title2">as ${row.character}</h3>` : html``}
+                ${row.character !== null && row.character !== ""
+                  ? html`<h3 slot="title2">as ${row.character}</h3>`
+                  : html``}
               </list-item>
-            </div>`
+            </div>`;
           })}
         </div>
       `;
@@ -190,13 +173,12 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
 
   _getData() {
     if (this._id !== undefined) {
-      api("/person/" + this._id, 1)
-        .then(res => this._data = res)
+      api("/person/" + this._id, 1).then((res) => (this._data = res));
 
-      api("/person/" + this._id + "/credits", 1)
-        .then(res => this._credits = res)
+      api("/person/" + this._id + "/credits", 1).then(
+        (res) => (this._credits = res)
+      );
     }
-
   }
 
   stateChanged(state) {

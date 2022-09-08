@@ -7,27 +7,24 @@ import { store } from "../../redux/store";
 import * as app from "../../redux/app";
 
 //i18next
-import i18next from '@dw/i18next-esm';
-import { localize } from '@dw/pwa-helpers';
+import i18next from "@dw/i18next-esm";
+import { localize } from "@dw/pwa-helpers";
 
-import * as typography from '@dreamworld/material-styles/typography';
+import * as typography from "@dreamworld/material-styles/typography";
 
 import "../components/my-loader";
 
 export class AppHome extends connect(store)(localize(i18next)(LitElement)) {
-
   static styles = [
     css`
-      :host{
+      :host {
         display: flex;
         flex: 1;
       }
-    `
-  ]
+    `,
+  ];
 
-  static properties = {
-
-  }
+  static properties = {};
 
   constructor() {
     super();
@@ -38,13 +35,7 @@ export class AppHome extends connect(store)(localize(i18next)(LitElement)) {
   }
 
   _getInitView() {
-
     return html`<my-loader></my-loader>`;
-
-  }
-
-  stateChanged(state) {
-    i18next.changeLanguage(app.selectors.getLanguage(state));
   }
 }
 
