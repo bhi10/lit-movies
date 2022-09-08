@@ -132,11 +132,6 @@ export class AppSection extends connect(store)(LitElement) {
       return html`<person-view></person-view>`;
     }
 
-    if (this._page === "test") {
-      import("./views/test/test-page");
-      return html`<test-page></test-page>`;
-    }
-
     if (this._page === "not-found") {
       import("./views/not-found");
       return html`<not-found></not-found>`;
