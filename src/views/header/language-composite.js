@@ -1,5 +1,6 @@
 import { html, css } from "lit-element";
 import { DwPopoverDialog } from "@dreamworld/dw-dialog/dw-popover-dialog.js";
+import { DwCompositeDialog } from "@dreamworld/dw-dialog/dw-composite-dialog";
 
 //dw-components
 import "@dreamworld/dw-list-item/dw-list-item.js";
@@ -10,9 +11,13 @@ import { store } from "../../redux/store";
 
 import * as app from "../../redux/app";
 
-class LanguageComposite extends connect(store)(DwPopoverDialog) {
+class LanguageComposite extends connect(store)(DwCompositeDialog) {
   constructor() {
     super();
+    this.type = "popover";
+    this.showTrigger = true;
+    this.popoverPlacement = "left-start";
+    this.appendTo = document.body;
   }
 
   static properties() {
@@ -20,6 +25,8 @@ class LanguageComposite extends connect(store)(DwPopoverDialog) {
       _language: {
         type: String,
       },
+
+      _layout: String,
     };
   }
 
@@ -73,6 +80,7 @@ class LanguageComposite extends connect(store)(DwPopoverDialog) {
 
   stateChanged(state) {
     this._language = app.selectors.getLanguage(state);
+    this._layout = app.selectors.getLayout(state);
   }
 }
 
