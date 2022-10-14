@@ -25,6 +25,7 @@ class ProfilePopover extends connect(store)(
     super();
     this.triggerElement;
     this.type = "popover";
+    this.placement = "bottom";
     this.i18nextNameSpace = ["app"];
   }
 
@@ -33,6 +34,8 @@ class ProfilePopover extends connect(store)(
       _language: {
         type: String,
       },
+
+      _layout: String,
     };
   }
 
@@ -55,6 +58,10 @@ class ProfilePopover extends connect(store)(
           border-radius: 50%;
           cursor: pointer;
           object-fit: cover;
+        }
+
+        :host([type="modal"]) {
+          --dw-dialog-content-padding: 0px;
         }
       `,
     ];
@@ -92,20 +99,19 @@ class ProfilePopover extends connect(store)(
 
   _openThemePopover(e) {
     let dialog = this.renderRoot.querySelector("theme-composite");
-    dialog.showTrigger = true;
-    dialog.popoverPlacement = "left-start";
     dialog.open(e.target);
   }
 
   _openLanguagePopover(e) {
     let dialog = this.renderRoot.querySelector("language-composite");
-    dialog.showTrigger = true;
-    dialog.popoverPlacement = "left-start";
     dialog.open(e.target);
   }
 
   stateChanged(state) {
     this._language = app.selectors.getLanguage(state);
+    this._layout = app.selectors.getLayout(state);
+
+    this.type = this._layout === "mobile" ? "modal" : "popover";
   }
 }
 
