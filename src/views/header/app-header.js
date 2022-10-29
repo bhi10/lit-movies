@@ -34,15 +34,6 @@ export class AppHeader extends connect(store)(localize(i18next)(DwSurface)) {
         transition: left var(--drawer-open-time);
       }
 
-      :host::before {
-        content: "";
-        width: 100%;
-        position: absolute;
-        height: 8px;
-        background-color: inherit;
-        top: -8px;
-      }
-
       :host([_drawerOpened]) {
         left: calc(var(--drawer-width) + 16px);
       }
