@@ -1,18 +1,13 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
+import { LitElement, html, css, CSSResultGroup } from "lit";
+import { customElement, property } from "lit/decorators.js";
 
+// Styles
+// @ts-ignore
 import { Shadow } from "@dreamworld/material-styles/shadow";
-import { LitElement, html, css } from "lit";
 
+@customElement("dw-surface")
 export class DwSurface extends LitElement {
-  static styles = [
+  static styles?: CSSResultGroup | undefined = [
     Shadow,
     css`
       :host {
@@ -149,25 +144,19 @@ export class DwSurface extends LitElement {
     `,
   ];
 
-  static properties = {
-    /**
-     * Specifies the background color
-     * possible values: `surface`, `primary`, `secondary`, `error`
-     * Default value is `surface`
-     */
-    bg: {
-      type: String,
-      reflect: true,
-    },
+  /**
+   * Specifies the background color
+   * possible values: `surface`, `primary`, `secondary`, `error`
+   * Default value is `surface`
+   */
+  @property({ type: String, reflect: true })
+  bg: string = "surface";
 
-    /**
-     * The z-depth of the card. Default is `0`.
-     */
-    elevation: {
-      type: Number,
-      reflect: true,
-    },
-  };
+  /**
+   * The z-depth of the card. Default is `0`.
+   */
+  @property({ type: Number, reflect: true })
+  elevation: number = 0;
 
   render() {
     return html`
@@ -178,15 +167,7 @@ export class DwSurface extends LitElement {
     `;
   }
 
-  constructor() {
-    super();
-    this.bg = "surface";
-    this.elevation = 0;
-  }
-
   get _getContentTemplate() {
     return html`<slot></slot>`;
   }
 }
-
-window.customElements.define("dw-surface", DwSurface);
