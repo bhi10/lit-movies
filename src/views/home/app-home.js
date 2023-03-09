@@ -8,7 +8,7 @@ import * as app from "../../redux/app";
 
 //i18next
 import i18next from "@dw/i18next-esm";
-import { localize } from "@dw/pwa-helpers";
+import localize from "../../component/localize";
 
 import * as typography from "@dreamworld/material-styles/typography";
 

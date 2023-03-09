@@ -10,6 +10,6 @@ export const currentModule = (state) => {
 
 export const currentId = (state) => get(state, 'router.page.params.id');
 
-export const currentPageNumber = (state) => get(state, 'router.page.params.page');
+export const currentPageNumber = (state) => get(state, 'router.page.params.page', 1);
 
 export const currentQueryString = (state) => get(state, 'router.page.params.query');

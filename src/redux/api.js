@@ -4,26 +4,23 @@ import * as app from "./app";
 import { getLanguage } from "./app/selectors";
 import { currentQueryString } from "./router/selector";
 
-export default async (string, page) => {
-
-  let curLang = getLanguage(store.getState()) === "en" ? "en-US" : getLanguage(store.getState()) === "hi" ? "hi-IN" : "gu-IN";
+export default async (url, page) => {
+  // let curLang = getLanguage(store.getState()) === "en" ? "en-US" : getLanguage(store.getState()) === "hi" ? "hi-IN" : "gu-IN";
   let search = currentQueryString(store.getState()) === undefined ? "" : "".concat("&query=", currentQueryString(store.getState()));
 
-  let url = "".concat(
+  let str = "".concat(
     app.selectors.apiBaseUrl(store.getState()),
-    string,
+    url,
     "?api_key=",
     app.selectors.apiKey(store.getState()),
     "&page=",
     page,
-    "&language=",
-    curLang,
     search
   );
 
   let res;
   try {
-    res = await fetch(url);
+    res = await fetch(str);
   } catch (err) {
     throw { status: 0 }
   }

@@ -10,7 +10,7 @@ import api from "../../redux/api";
 
 //i18next
 import i18next from "@dw/i18next-esm";
-import { localize } from "@dw/pwa-helpers";
+import localize from "../../component/localize";
 
 //components
 import "../components/my-loader";

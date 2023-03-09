@@ -9,7 +9,7 @@ import * as app from "../../redux/app";
 
 //i18next
 import i18next from "@dw/i18next-esm";
-import { localize } from "@dw/pwa-helpers";
+import localize from "../../component/localize.js"
 
 //Dw-Components
 import "@dreamworld/dw-list-item/dw-list-item";
@@ -27,6 +27,7 @@ class ProfilePopover extends connect(store)(
     this.type = "popover";
     this.placement = "bottom";
     this.i18nextNameSpace = ["app"];
+    this.showTrigger = true;
   }
 
   static get properties() {
