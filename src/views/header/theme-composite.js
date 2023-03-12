@@ -65,7 +65,6 @@ class ThemeComposite extends connect(store)(DwCompositeDialog) {
   _onThemeChange(e) {
     if (this._theme !== e.target.title1.toLowerCase()) {
       this._theme = this._theme === "light" ? "dark" : "light";
-      console.log(this._theme);
       store.dispatch(app.actions.changeTheme(this._theme));
       this.close();
     }

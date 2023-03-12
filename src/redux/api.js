@@ -4,18 +4,13 @@ import * as app from "./app";
 import { getLanguage } from "./app/selectors";
 import { currentQueryString } from "./router/selector";
 
-export default async (url, page) => {
+export default async (url) => {
   // let curLang = getLanguage(store.getState()) === "en" ? "en-US" : getLanguage(store.getState()) === "hi" ? "hi-IN" : "gu-IN";
-  let search = currentQueryString(store.getState()) === undefined ? "" : "".concat("&query=", currentQueryString(store.getState()));
+  const baseUrl = app.selectors.apiBaseUrl(store.getState());
 
   let str = "".concat(
-    app.selectors.apiBaseUrl(store.getState()),
+    baseUrl,
     url,
-    "?api_key=",
-    app.selectors.apiKey(store.getState()),
-    "&page=",
-    page,
-    search
   );
 
   let res;

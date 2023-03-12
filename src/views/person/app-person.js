@@ -1,21 +1,23 @@
-import { LitElement, html, css } from "lit";
+import { css, html, LitElement } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
 import { store } from "../../redux/store";
 
-import * as app from "../../redux/app";
-import * as router from "../../redux/router";
 import api from "../../redux/api";
+import * as app from "../../redux/app";
+import * as person from "../../redux/person";
+import * as router from "../../redux/router";
 
+import debounce from "lodash-es/debounce.js";
 //i18next
 import i18next from "@dw/i18next-esm";
 import localize from "../../component/localize";
 
 //components
-import "../components/my-loader";
 import "@material/mwc-button";
 import "@material/mwc-textfield";
+import "../components/my-loader";
 import "../movies/list-item";
 
 export class AppPerson extends connect(store)(localize(i18next)(LitElement)) {
@@ -72,7 +74,7 @@ export class AppPerson extends connect(store)(localize(i18next)(LitElement)) {
   constructor() {
     super();
     this._data;
-    this.pageNumber = 1;
+    this._pageNumber = 1;
     this.timer;
     this.waitTime = 1000;
   }
@@ -83,13 +85,12 @@ export class AppPerson extends connect(store)(localize(i18next)(LitElement)) {
 
   _getInitView() {
     if (this._data !== undefined) {
-      console.log(this._data);
       return html`
         <div class="main">
           <div class="filter">
             <mwc-textfield
               @keyup=${this._onSearch}
-              value=${this.queryString}
+              value=${this._queryString}
               outlined
               placeholder="Search"
             ></mwc-textfield>
@@ -130,6 +131,58 @@ export class AppPerson extends connect(store)(localize(i18next)(LitElement)) {
     `;
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    this._onScroll = debounce(this._onScroll.bind(this), 100);
+    window.addEventListener("scroll", this._onScroll);
+  }
+
+  firstUpdated() {
+    this._fetchData(false);
+  }
+
+  willUpdate(_changedProperties) {
+    if (_changedProperties.has("_pageNumber")) {
+      this._fetchData(false);
+    }
+
+    if (_changedProperties.has("_queryString")) {
+      this._pageNumber = 1;
+      this._fetchData(true);
+    }
+  }
+
+  _onScroll() {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight - 500
+    ) {
+      this._pageNumber = this._pageNumber + 1;
+    }
+  }
+
+  _fetchData(replace) {
+    if (this._queryString) {
+      store.dispatch(
+        person.actions.fetch({
+          subPage: "/search/person",
+          pageNumber: this._pageNumber,
+          query: this._queryString,
+          replace: replace,
+        })
+      );
+    } else {
+      store.dispatch(
+        person.actions.fetch({
+          subPage: "/person/popular",
+          pageNumber: this._pageNumber,
+          query: this._queryString,
+          replace: replace,
+        })
+      );
+    }
+  }
+
   _onSearch(e) {
     let text = e.target.value;
 
@@ -149,38 +202,37 @@ export class AppPerson extends connect(store)(localize(i18next)(LitElement)) {
     router.navigatePage("person", { query: str }, false);
   }
 
-  _onNextClick(e) {
-    let pageNum = this.pageNumber === undefined ? 1 : this.pageNumber;
-    if (this.queryString === undefined) {
+  _onNextClick() {
+    let pageNum = this._pageNumber === undefined ? 1 : this._pageNumber;
+    if (this._queryString === undefined) {
       router.navigatePage("person", { page: pageNum + 1 }, false);
       return;
     }
     router.navigatePage(
       "person",
-      { page: pageNum + 1, query: this.queryString },
+      { page: pageNum + 1, query: this._queryString },
       false
     );
-    this.pageNumber = pageNum + 1;
+    this._pageNumber = pageNum + 1;
   }
 
   _getPopularPerson() {
-    if (this.queryString !== undefined) {
-      api("/search/person", this.pageNumber).then(
+    if (this._queryString !== undefined) {
+      api("/search/person", this._pageNumber).then(
         (res) => (this._data = res.results)
       );
       return;
     }
-    api("/person/popular", this.pageNumber).then(
+    api("/person/popular", this._pageNumber).then(
       (res) => (this._data = res.results)
     );
   }
 
   stateChanged(state) {
     i18next.changeLanguage(app.selectors.getLanguage(state));
-    this.pageNumber = router.selectors.currentPageNumber(state);
-    this.queryString = router.selectors.currentQueryString(state);
+    this._queryString = router.selectors.currentQueryString(state);
     this.imageUrl = app.selectors.apiImageUrl(state);
-    this._getPopularPerson();
+    this._data = person.selectors.list(state);
   }
 }
 

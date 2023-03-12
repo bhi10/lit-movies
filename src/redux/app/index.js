@@ -1,15 +1,15 @@
 export const LAYOUT_CHANGE_MEDIA_QUERY = "only screen and (max-width: 480px)";
 
-import { default as reducer } from './reducer';
-import { store, sagaMiddleware } from '../store';
+import { default as reducer } from "./reducer";
+import { store, sagaMiddleware } from "../store";
 
-import * as _selectors from './selectors';
-import * as _actions from './actions';
+import * as _selectors from "./selectors";
+import * as _actions from "./actions";
 
-import saga from './saga';
+import saga from "./saga";
 
 store.addReducers({
-  app: reducer
+  app: reducer,
 });
 
 sagaMiddleware.run(saga);
@@ -24,22 +24,21 @@ media.addListener(() => {
       type: "layoutChange",
       value: {
         layout: layout,
-        drawerOpened: layout === 'desktop'
+        drawerOpened: layout === "desktop",
       },
-    })
+    });
   }
 });
 
 window.addEventListener("scroll", () => {
-
-  if(window.scrollY !== 0){
-    if(store.getState().app.scrollTop){
+  if (window.scrollY !== 0) {
+    if (store.getState().app.scrollTop) {
       store.dispatch(_actions.changeScroll(false));
     }
-  } else{
-    store.dispatch(_actions.changeScroll(true))
+  } else {
+    store.dispatch(_actions.changeScroll(true));
   }
-})
+});
 
 export const selectors = _selectors;
 export const actions = _actions;

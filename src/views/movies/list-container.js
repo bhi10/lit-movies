@@ -65,7 +65,6 @@ export class ListContainer extends connect(store)(
   }
 
   render() {
-    console.log(this.dataSet);
     return html`
       <div class="main">
         ${this.dataSet.map((row) => {
