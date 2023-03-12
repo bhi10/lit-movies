@@ -6,7 +6,7 @@ import { store } from "../../redux/store";
 
 //i18next
 import i18next from "@dw/i18next-esm";
-import { localize } from "@dw/pwa-helpers";
+import localize from "../../component/localize";
 
 //custom-components
 import "./list-item";
@@ -65,7 +65,6 @@ export class ListContainer extends connect(store)(
   }
 
   render() {
-    console.log(this.dataSet);
     return html`
       <div class="main">
         ${this.dataSet.map((row) => {

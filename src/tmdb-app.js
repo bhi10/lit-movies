@@ -14,7 +14,7 @@ import "./app-section";
 //i18next
 import i18next from "@dw/i18next-esm";
 import Backend from "i18next-xhr-backend";
-import { localize } from "@dw/pwa-helpers";
+import localize from "./component/localize";
 
 //DreamWorld Hammerjs
 import Hammer from "@dreamworld/hammerjs/hammer.js";

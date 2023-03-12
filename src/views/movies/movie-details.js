@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit";
+import { css, html, LitElement } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
@@ -6,16 +6,16 @@ import { store } from "../../redux/store";
 
 //i18next
 import i18next from "@dw/i18next-esm";
-import { localize } from "@dw/pwa-helpers";
+import localize from "../../component/localize";
 
-import * as router from "./../../redux/router";
+import * as movies from "../../redux/movies";
 import * as app from "./../../redux/app";
+import * as router from "./../../redux/router";
 
-import api from "../../redux/api";
 
 //Custom-components
-import "./../components/my-loader";
 import "../components/dw-surface";
+import "./../components/my-loader";
 import "./list-item";
 
 import moment from "moment/src/moment";
@@ -184,10 +184,13 @@ export class MovieDetails extends connect(store)(
 
   _getData() {
     if (this._id !== undefined) {
-      api("/movie/" + this._id, 1).then((res) => (this._data = res));
-
-      api("/movie/" + this._id + "/credits", 1).then(
-        (res) => (this._credits = res)
+      store.dispatch(
+        movies.actions.fetchMovieDetail({ subPage: `/movie/${this._id}` })
+      );
+      store.dispatch(
+        movies.actions.fetchMovieCredits({
+          subPage: `/movie/${this._id}/credits`,
+        })
       );
     }
   }
@@ -197,6 +200,8 @@ export class MovieDetails extends connect(store)(
     this._id = router.selectors.currentId(state);
     this.imageUrl = app.selectors.apiImageUrl(state);
     this.layout = app.selectors.getLayout(state);
+    this._data = movies.selectors.movieDetail(state, this._id);
+    this._credits = movies.selectors.movieCredit(state, this._id);
   }
 }
 

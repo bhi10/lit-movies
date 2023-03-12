@@ -12,7 +12,7 @@ import "@dreamworld/dw-list-item/dw-list-item";
 
 //i18next
 import i18next from "@dw/i18next-esm";
-import { localize } from "@dw/pwa-helpers";
+import localize from "../../component/localize";
 
 //Custom Components
 import { DwSurface } from "../components/dw-surface";

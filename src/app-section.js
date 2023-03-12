@@ -1,10 +1,10 @@
-import { LitElement, html, css } from "lit";
+import { css, html, LitElement } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
-import { store } from "./redux/store";
 import * as app from "./redux/app";
 import * as router from "./redux/router";
+import { store } from "./redux/store";
 
 //Views
 import "./views/header/app-header";
@@ -153,7 +153,6 @@ export class AppSection extends connect(store)(LitElement) {
     this.drawerOpened = app.selectors.getDrawerStatus(state);
     this._page = router.selectors.currentPage(state);
     this._id = router.selectors.currentId(state);
-    console.log(state);
   }
 }
 

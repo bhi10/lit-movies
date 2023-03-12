@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit";
+import { css, html, LitElement } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
@@ -6,17 +6,19 @@ import { store } from "../../redux/store";
 
 //i18next
 import i18next from "@dw/i18next-esm";
-import { localize } from "@dw/pwa-helpers";
+import localize from "../../component/localize";
 
-import * as router from "./../../redux/router";
+import * as person from "../../redux/person";
 import * as app from "./../../redux/app";
+import * as router from "./../../redux/router";
 
-import api from "../../redux/api";
+import orderBy from "lodash-es/orderBy.js";
+
 
 //Custom-components
-import "./../components/my-loader";
 import "../components/dw-surface";
 import "../movies/list-item";
+import "./../components/my-loader";
 
 export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
   static styles = [
@@ -148,7 +150,7 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
       return html`
         <h4>Known for</h4>
         <div class="main">
-          ${this._credits.cast.map((row) => {
+          ${this._getCastList().map((row) => {
             let mImageUrl = "src/img/not-found/not-available.png";
             if (row.poster_path !== null) {
               mImageUrl = "".concat(this.imageUrl, "/w500", row.poster_path);
@@ -171,12 +173,17 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
     return html``;
   }
 
-  _getData() {
-    if (this._id !== undefined) {
-      api("/person/" + this._id, 1).then((res) => (this._data = res));
+  _getCastList() {
+    return orderBy(this._credits.cast, [(item) => item.popularity], ["desc"]);
+  }
 
-      api("/person/" + this._id + "/credits", 1).then(
-        (res) => (this._credits = res)
+  _getData() {
+    if (this._id) {
+      store.dispatch(
+        person.actions.fetchDetail({ subPage: `/person/${this._id}` })
+      );
+      store.dispatch(
+        person.actions.fetchCredit({ subPage: `/person/${this._id}/credits` })
       );
     }
   }
@@ -186,6 +193,8 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
     this._id = router.selectors.currentId(state);
     this.imageUrl = app.selectors.apiImageUrl(state);
     this.layout = app.selectors.getLayout(state);
+    this._data = person.selectors.personDetail(state, this._id);
+    this._credits = person.selectors.personCredit(state, this._id);
   }
 }
 
