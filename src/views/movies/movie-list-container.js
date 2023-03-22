@@ -14,7 +14,7 @@ import "./list-item";
 //selectors
 import * as app from "../../redux/app";
 
-export class ListContainer extends connect(store)(
+export class MovieListContainer extends connect(store)(
   localize(i18next)(LitElement)
 ) {
   static styles = [
@@ -90,4 +90,4 @@ export class ListContainer extends connect(store)(
   }
 }
 
-window.customElements.define("list-container", ListContainer);
+window.customElements.define("movie-list-container", MovieListContainer);

@@ -1,0 +1,94 @@
+import { LitElement, html, css } from "lit";
+
+//Redux
+import { connect } from "pwa-helpers/connect-mixin.js";
+import { store } from "../../redux/store";
+
+//i18next
+import i18next from "@dw/i18next-esm";
+import localize from "../../component/localize";
+
+//custom-components
+import "../movies/list-item";
+
+//selectors
+import * as app from "../../redux/app";
+
+export class ShowListContainer extends connect(store)(
+  localize(i18next)(LitElement)
+) {
+  static styles = [
+    css`
+      :host {
+        flex: 1;
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        align-content: flex-start;
+        top: 0;
+        left: 0;
+      }
+
+      :host([layout="mobile"]) .main {
+        justify-content: center;
+      }
+
+      .main {
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .main div {
+        margin-right: 16px;
+        margin-bottom: 16px;
+      }
+    `,
+  ];
+
+  static properties = {
+    dataSet: { type: Object },
+    layout: {
+      type: String,
+      reflect: true,
+    },
+    imageUrl: {
+      type: String,
+    },
+  };
+
+  constructor() {
+    super();
+    this.dataSet;
+  }
+
+  render() {
+    return html`
+      <div class="main">
+        ${this.dataSet.map((row) => {
+          let imageUrl = "src/img/not-found/not-available.png";
+          if (row.poster_path !== null) {
+            imageUrl = "".concat(this.imageUrl, "/w500", row.poster_path);
+          }
+          
+          return html` <div>
+            <list-item .id=${row.id} redirect="shows">
+              <img slot="image" src=${imageUrl} />
+              <h2 slot="title1">${row.name}</h2>
+            </list-item>
+          </div>`;
+        })}
+      </div>
+    `;
+  }
+
+  stateChanged(state) {
+    i18next.changeLanguage(app.selectors.getLanguage(state));
+    this.layout = app.selectors.getLayout(state);
+    this.imageUrl = app.selectors.apiImageUrl(state);
+  }
+}
+
+window.customElements.define("show-list-container", ShowListContainer);

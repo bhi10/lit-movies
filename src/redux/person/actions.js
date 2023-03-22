@@ -10,6 +10,10 @@ export const PERSON_CREDIT_FETCH = `PERSON_CREDIT_FETCH`;
 
 export const PERSON_CREDIT_FETCHED = `PERSON_CREDIT_FETCHED`;
 
+export const PERSON_IMAGES_FETCH = `PERSON_IMAGES_FETCH`;
+
+export const PERSON_IMAGES_FETCHED = `PERSON_IMAGES_FETCHED`;
+
 export const fetch = (request) => {
   return {
     type: PERSON_FETCH,
@@ -30,3 +34,10 @@ export const fetchCredit = (request) => {
     request,
   };
 };
+
+export const fetchImages = (request) => {
+  return {
+    type: PERSON_IMAGES_FETCH,
+    request
+  }
+}

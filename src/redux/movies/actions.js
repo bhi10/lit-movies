@@ -10,6 +10,10 @@ export const MOVIE_CREDIT_FETCH = `MOVIE_CREDIT_FETCH`;
 
 export const MOVIE_CREDIT_FETCHED = `MOVIE_CREDIT_FETCHED`;
 
+export const MOVIE_IMAGE_FETCH = `MOVIE_IMAGE_FETCH`;
+
+export const MOVIE_IMAGE_FETCHED = `MOVIE_IMAGE_FETCHED`;
+
 export const fetch = (request) => {
   return {
     type: MOVIES_FETCH,
@@ -30,3 +34,10 @@ export const fetchMovieCredits = (request) => {
     request,
   };
 };
+
+export const fetchMovieImages = (request) => {
+  return {
+    type: MOVIE_IMAGE_FETCH,
+    request
+  }
+}

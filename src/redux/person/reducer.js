@@ -4,7 +4,9 @@ import {
   PERSON_DETAIL_FETCH,
   PERSON_DETAIL_FETCHED,
   PERSON_FETCH,
-  PERSON_FETCHED
+  PERSON_FETCHED,
+  PERSON_IMAGES_FETCH,
+  PERSON_IMAGES_FETCHED,
 } from "./actions";
 
 const INITIAL_STATE = {
@@ -12,6 +14,7 @@ const INITIAL_STATE = {
   list: [],
   detail: [],
   credits: [],
+  images: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -47,6 +50,15 @@ export default (state = INITIAL_STATE, action) => {
     case PERSON_CREDIT_FETCHED: {
       const { detail } = action.response;
       return { ...oState, credits: [...oState.credits, { ...detail }] };
+    }
+
+    case PERSON_IMAGES_FETCH: {
+      return { ...oState, fetching: true };
+    }
+
+    case PERSON_IMAGES_FETCHED: {
+      const { detail } = action.response;
+      return { ...oState, images: [...oState.images, { ...detail }] };
     }
 
     default:

@@ -18,7 +18,7 @@ import localize from "../../component/localize";
 import "@material/mwc-button";
 import "@material/mwc-textfield";
 import "../components/my-loader";
-import "./list-container";
+import "./movie-list-container";
 
 export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
   static styles = [
@@ -91,7 +91,7 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
             ></mwc-button>
           </div>
           <h2>Popular Movies</h2>
-          <list-container .dataSet=${this.data}></list-container>
+          <movie-list-container .dataSet=${this.data}></movie-list-container>
         </div>
       `;
     }

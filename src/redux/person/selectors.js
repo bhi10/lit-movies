@@ -13,3 +13,8 @@ export const personCredit = (state, id) => {
   const credits = get(state, `person.credits`);
   return credits.find((element) => element.id === id);
 };
+
+export const personImages = (state, id ) => {
+  const images = get(state, `person.images`);
+  return images.find((item) => item.id === id)
+}

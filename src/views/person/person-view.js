@@ -1,4 +1,4 @@
-import { css, html, LitElement } from "lit";
+import { css, html, LitElement, nothing } from "lit";
 
 //Redux
 import { connect } from "pwa-helpers/connect-mixin.js";
@@ -14,11 +14,11 @@ import * as router from "./../../redux/router";
 
 import orderBy from "lodash-es/orderBy.js";
 
-
 //Custom-components
 import "../components/dw-surface";
 import "../movies/list-item";
 import "./../components/my-loader";
+import "../components/motion-carousel.js"
 
 export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
   static styles = [
@@ -92,6 +92,10 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
     _credits: {
       type: Object,
     },
+
+    _images: {
+      type: Object,
+    },
   };
 
   constructor() {
@@ -157,7 +161,7 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
             }
 
             return html` <div>
-              <list-item .id=${row.id} redirect="movies">
+              <list-item .id=${row.id} redirect="${row.media_type === "tv" ? "shows" : "movies"}">
                 <img slot="image" src=${mImageUrl} />
                 <h2 slot="title1">${row.title}</h2>
                 ${row.character !== null && row.character !== ""
@@ -167,10 +171,28 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
             </div>`;
           })}
         </div>
+
+        ${this._renderImages}
       `;
     }
 
     return html``;
+  }
+
+  get _renderImages() {
+    if (!this._images) {
+      return nothing;
+    }
+
+    return html`<h4>Images</h4>
+    <div class="main">
+      <motion-carousel>
+        ${this._images.profiles.map((item) => {
+          const imgUrl = `${this.imageUrl}/original${item.file_path}`
+          return html`<img src="${imgUrl}">`
+        })}
+      </motion-carousel>
+    </div>`
   }
 
   _getCastList() {
@@ -183,7 +205,10 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
         person.actions.fetchDetail({ subPage: `/person/${this._id}` })
       );
       store.dispatch(
-        person.actions.fetchCredit({ subPage: `/person/${this._id}/credits` })
+        person.actions.fetchCredit({ subPage: `/person/${this._id}/combined_credits` })
+      );
+      store.dispatch(
+        person.actions.fetchImages({ subPage: `/person/${this._id}/images` })
       );
     }
   }
@@ -195,6 +220,7 @@ export class PersonView extends connect(store)(localize(i18next)(LitElement)) {
     this.layout = app.selectors.getLayout(state);
     this._data = person.selectors.personDetail(state, this._id);
     this._credits = person.selectors.personCredit(state, this._id);
+    this._images = person.selectors.personImages(state, this._id);
   }
 }
 
