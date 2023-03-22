@@ -42,6 +42,18 @@ function* _onPersonCreditFetch({ request }) {
   }
 }
 
+function* _onPersonImagesFetch({ request }) {
+  try {
+    let res = yield call(_fetch, request);
+    yield put({
+      type: actions.PERSON_IMAGES_FETCHED,
+      response: { detail: res },
+    });
+  } catch (err) {
+    console.error(`_onPersonImagesFetch: failed. error`, err);
+  }
+}
+
 function* _fetch(request) {
   const state = yield select();
   let url = getApiUrl(request, state);
@@ -53,15 +65,24 @@ function* init() {
   yield takeEvery(actions.PERSON_FETCH, _onPersonFetch);
   yield takeEvery(actions.PERSON_DETAIL_FETCH, _onPersonDetailFetch);
   yield takeEvery(actions.PERSON_CREDIT_FETCH, _onPersonCreditFetch);
+  yield takeEvery(actions.PERSON_IMAGES_FETCH, _onPersonImagesFetch);
 }
+
+let task;
 
 function* onRouteChanged() {
   try {
     let state = yield select();
     let pageName = router.selectors.currentPage(state);
 
-    if (pageName === "person") {
+    if (pageName === "person" && !task) {
       yield fork(init);
+      return;
+    }
+
+    if (pageName !== "person" && task) {
+      yield cancel(task);
+      task = null;
       return;
     }
   } catch (err) {

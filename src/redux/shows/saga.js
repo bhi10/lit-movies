@@ -11,7 +11,7 @@ function* _onMoviesFetch({ request }) {
     let { replace } = request;
 
     yield put({
-      type: actions.MOVIES_FETCHED,
+      type: actions.SHOW_FETCHED,
       response: { list: res, replace: replace },
     });
   } catch (err) {
@@ -30,7 +30,7 @@ function* _onMovieDetailFetch({ request }) {
   try {
     let res = yield call(_fetch, request);
     yield put({
-      type: actions.MOVIE_DETAIL_FETCHED,
+      type: actions.SHOW_DETAIL_FETCHED,
       response: { detail: res },
     });
   } catch (err) {
@@ -42,7 +42,7 @@ function* _onMovieCreditFetch({ request }) {
   try {
     let res = yield call(_fetch, request);
     yield put({
-      type: actions.MOVIE_CREDIT_FETCHED,
+      type: actions.SHOW_CREDIT_FETCHED,
       response: { detail: res },
     });
   } catch (err) {
@@ -54,7 +54,7 @@ function* _onMovieImageFetch({request})  {
   try {
     let res = yield call(_fetch, request);
     yield put({
-      type: actions.MOVIE_IMAGE_FETCHED,
+      type: actions.SHOW_IMAGE_FETCHED,
       response: { detail: res },
     });
   }catch (err) {
@@ -63,10 +63,10 @@ function* _onMovieImageFetch({request})  {
 }
 
 function* init() {
-  yield takeEvery(actions.MOVIES_FETCH, _onMoviesFetch);
-  yield takeEvery(actions.MOVIE_DETAIL_FETCH, _onMovieDetailFetch);
-  yield takeEvery(actions.MOVIE_CREDIT_FETCH, _onMovieCreditFetch);
-  yield takeEvery(actions.MOVIE_IMAGE_FETCH, _onMovieImageFetch)
+  yield takeEvery(actions.SHOW_FETCH, _onMoviesFetch);
+  yield takeEvery(actions.SHOW_DETAIL_FETCH, _onMovieDetailFetch);
+  yield takeEvery(actions.SHOW_CREDIT_FETCH, _onMovieCreditFetch);
+  yield takeEvery(actions.SHOW_IMAGE_FETCH, _onMovieImageFetch)
 }
 
 let task;
@@ -76,12 +76,12 @@ function* onRouteChanged() {
     let state = yield select();
     let pageName = router.selectors.currentPage(state);
 
-    if (pageName === "movies" && !task) {
+    if (pageName === "shows" && !task) {
       task = yield fork(init);
       return;
     }
 
-    if (pageName !== "movies" && task) {
+    if (pageName !== "shows" && task) {
       yield cancel(task);
       task = null;
       return;

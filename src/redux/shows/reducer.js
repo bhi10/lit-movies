@@ -1,12 +1,12 @@
 import {
-  MOVIES_FETCH,
-  MOVIES_FETCHED,
-  MOVIE_CREDIT_FETCH,
-  MOVIE_CREDIT_FETCHED,
-  MOVIE_DETAIL_FETCH,
-  MOVIE_DETAIL_FETCHED,
-  MOVIE_IMAGE_FETCH,
-  MOVIE_IMAGE_FETCHED,
+  SHOW_CREDIT_FETCH,
+  SHOW_CREDIT_FETCHED,
+  SHOW_DETAIL_FETCH,
+  SHOW_DETAIL_FETCHED,
+  SHOW_FETCH,
+  SHOW_FETCHED,
+  SHOW_IMAGE_FETCH,
+  SHOW_IMAGE_FETCHED,
 } from "./actions";
 
 const INITIAL_STATE = {
@@ -14,17 +14,17 @@ const INITIAL_STATE = {
   list: [],
   detail: [],
   credits: [],
-  images: []
+  images: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
   let oState = { ...state };
 
   switch (action.type) {
-    case MOVIES_FETCH:
+    case SHOW_FETCH:
       return { ...oState, fetching: true };
 
-    case MOVIES_FETCHED: {
+    case SHOW_FETCHED: {
       const { list, replace } = action.response;
       if (replace) {
         delete oState.list;
@@ -33,27 +33,27 @@ export default (state = INITIAL_STATE, action) => {
       return { ...oState, list: [...oState.list, ...list.results] };
     }
 
-    case MOVIE_DETAIL_FETCH:
+    case SHOW_DETAIL_FETCH:
       return { ...oState, fetching: true };
 
-    case MOVIE_DETAIL_FETCHED: {
+    case SHOW_DETAIL_FETCHED: {
       const { detail } = action.response;
       return { ...oState, detail: [...oState.detail, { ...detail }] };
     }
 
-    case MOVIE_CREDIT_FETCH:
+    case SHOW_CREDIT_FETCH:
       return { ...oState, fetching: true };
 
-    case MOVIE_CREDIT_FETCHED: {
+    case SHOW_CREDIT_FETCHED: {
       const { detail } = action.response;
       return { ...oState, credits: [...oState.credits, { ...detail }] };
     }
 
-    case MOVIE_IMAGE_FETCH: {
-      return {...oState, fetching: true}
+    case SHOW_IMAGE_FETCH: {
+      return { ...oState, fetching: true };
     }
 
-    case MOVIE_IMAGE_FETCHED: {
+    case SHOW_IMAGE_FETCHED: {
       const { detail } = action.response;
       return { ...oState, images: [...oState.images, { ...detail }] };
     }
