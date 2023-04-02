@@ -127,6 +127,7 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
           subPage: "/search/movie",
           pageNumber: this.pageNumber,
           query: this.queryString,
+          include_adult: true,
           replace: replace,
         })
       );
@@ -136,6 +137,7 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
           subPage: "/movie/popular",
           pageNumber: this.pageNumber,
           query: this.queryString,
+          include_adult: true,
           replace: replace,
         })
       );

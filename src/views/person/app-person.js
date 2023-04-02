@@ -168,6 +168,7 @@ export class AppPerson extends connect(store)(localize(i18next)(LitElement)) {
           subPage: "/search/person",
           pageNumber: this._pageNumber,
           query: this._queryString,
+          include_adult: true,
           replace: replace,
         })
       );
@@ -177,6 +178,7 @@ export class AppPerson extends connect(store)(localize(i18next)(LitElement)) {
           subPage: "/person/popular",
           pageNumber: this._pageNumber,
           query: this._queryString,
+          include_adult: true,
           replace: replace,
         })
       );

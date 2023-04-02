@@ -6,7 +6,7 @@ import * as appSelectors from "./app/selectors";
  * @returns {String}
  */
 export const getApiUrl = (
-  { subPage = `/movie/popular`, pageNumber, query },
+  { subPage = `/movie/popular`, pageNumber, query, include_adult },
   state
 ) => {
   const apiKey = appSelectors.apiKey(state);
@@ -19,6 +19,10 @@ export const getApiUrl = (
 
   if (query) {
     url += `&query=${query}`;
+  }
+
+  if (include_adult) {
+    url += `&include_adult=true`;
   }
 
   return url;
