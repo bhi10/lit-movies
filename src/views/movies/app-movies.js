@@ -90,7 +90,7 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
               raised
             ></mwc-button>
           </div>
-          <h2>Popular Movies</h2>
+          <h2>Top Rated Movies</h2>
           <movie-list-container .dataSet=${this.data}></movie-list-container>
         </div>
       `;
@@ -133,7 +133,7 @@ export class AppMovies extends connect(store)(localize(i18next)(LitElement)) {
     } else {
       store.dispatch(
         movies.actions.fetch({
-          subPage: "/movie/popular",
+          subPage: "/movie/top_rated",
           pageNumber: this.pageNumber,
           query: this.queryString,
           replace: replace,
