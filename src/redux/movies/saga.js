@@ -76,7 +76,7 @@ function* onRouteChanged() {
     let state = yield select();
     let pageName = router.selectors.currentPage(state);
 
-    if (pageName === "movies" && !task) {
+    if ((pageName === "movies" || pageName === "root") && !task) {
       task = yield fork(init);
       return;
     }
